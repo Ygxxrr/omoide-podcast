@@ -246,9 +246,11 @@ body.ep-view #episode{display:block}
 
 
 /* share */
-.share{display:flex;align-items:center;gap:8px;margin-top:22px}
-.trailer .share{justify-content:center}
-.share-l{font-size:13px;color:var(--muted);letter-spacing:.04em;margin-right:4px}
+.share{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:22px}
+.share-l{flex-basis:100%;font-size:clamp(17px,1.7vw,21px);line-height:1.5;color:var(--ink);margin-bottom:6px}
+.trailer{padding-bottom:0}
+.trailer .share{justify-content:center;text-align:center;margin-top:80px}
+.ep-hero .share-l{font-size:16px}
 .sh{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--ink);display:grid;place-items:center;transition:background .2s,color .2s,transform .2s}
 .sh svg{width:19px;height:19px}
 .sh:hover{background:var(--ink);color:var(--cream);transform:translateY(-2px)}
@@ -354,7 +356,7 @@ body.ep-view #episode{display:block}
     <button class="btn sm" data-play="trailer"><span>OUVIR</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
     </button>
-    <div class="share" data-share="home"><span class="share-l">compartilhar</span>
+    <div class="share" data-share="home"><span class="share-l">Compartilhe</span>
       <button type="button" class="sh" data-sh="wa" aria-label="Compartilhar no WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5l1.3-4.2A8.5 8.5 0 1 1 8 19.4z"/><path d="M9 8.6c.2-.5.5-.6.8-.6h.5c.2 0 .4.1.5.4l.7 1.6c.1.2 0 .5-.1.6l-.5.6c-.1.1-.1.3 0 .5.6 1 1.4 1.8 2.4 2.4.2.1.4.1.5 0l.6-.6c.2-.2.4-.2.6-.1l1.6.7c.3.1.4.3.4.5v.5c0 .3-.2.7-.6.9-.8.4-2 .5-3.8-.5a10 10 0 0 1-3.4-3.4c-1-1.8-.6-3-.2-3.6z" fill="currentColor" stroke="none"/></svg></button>
       <button type="button" class="sh" data-sh="ig" aria-label="Compartilhar no Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></button>
       <button type="button" class="sh" data-sh="link" aria-label="Copiar link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1"/></svg></button></div>
@@ -418,7 +420,7 @@ body.ep-view #episode{display:block}
 <button type="button" class="cb" data-skip="10" aria-label="Avançar 10 segundos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v4h-4"/><text x="12" y="15.6" text-anchor="middle" font-size="7.4" font-weight="700" fill="currentColor" stroke="none" font-family="Poppins,sans-serif">10</text></svg></button>
 <button type="button" class="cb" data-step="1" aria-label="Próximo episódio"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM4 5v14l10.5-7z"/></svg></button></div>
         </div>
-        <div class="share" data-share="ep"><span class="share-l">compartilhar</span>
+        <div class="share" data-share="ep"><span class="share-l">Compartilhe</span>
       <button type="button" class="sh" data-sh="wa" aria-label="Compartilhar no WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5l1.3-4.2A8.5 8.5 0 1 1 8 19.4z"/><path d="M9 8.6c.2-.5.5-.6.8-.6h.5c.2 0 .4.1.5.4l.7 1.6c.1.2 0 .5-.1.6l-.5.6c-.1.1-.1.3 0 .5.6 1 1.4 1.8 2.4 2.4.2.1.4.1.5 0l.6-.6c.2-.2.4-.2.6-.1l1.6.7c.3.1.4.3.4.5v.5c0 .3-.2.7-.6.9-.8.4-2 .5-3.8-.5a10 10 0 0 1-3.4-3.4c-1-1.8-.6-3-.2-3.6z" fill="currentColor" stroke="none"/></svg></button>
       <button type="button" class="sh" data-sh="ig" aria-label="Compartilhar no Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></button>
       <button type="button" class="sh" data-sh="link" aria-label="Copiar link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1"/></svg></button></div>
