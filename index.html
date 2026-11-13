@@ -277,6 +277,18 @@ body.ep-view #episode{display:block}
 .toast{position:fixed;left:50%;bottom:96px;transform:translate(-50%,20px);background:var(--ink);color:var(--cream);font-size:14px;padding:12px 20px;border-radius:999px;z-index:60;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;box-shadow:0 10px 30px -10px rgba(0,0,0,.5);max-width:calc(100vw - 32px);text-align:center}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 
+
+/* vinheta de episódio */
+.epi{position:fixed;inset:0;z-index:90;background:rgba(43,24,16,1);transition:background-color .85s ease;cursor:pointer}
+.epi.fly{background:rgba(43,24,16,0)}
+.epi-img{position:fixed;left:50%;top:50%;width:min(56vh,78vw);aspect-ratio:1;border-radius:22px;transform:translate(-50%,-50%) scale(.86);opacity:0;
+  box-shadow:0 0 0 1px rgba(176,122,80,.35),0 30px 80px -20px rgba(0,0,0,.85);animation:epiIn .9s cubic-bezier(.2,.7,.2,1) .05s forwards}
+.epi-tag,.epi-title{position:fixed;left:0;right:0;text-align:center;color:var(--cream);opacity:0;transition:opacity .4s ease}
+.epi-tag{bottom:calc(50% + min(28vh,39vw) + 18px);font-weight:300;font-size:clamp(15px,1.6vw,19px);letter-spacing:.06em;animation:fade .7s ease .55s forwards}
+.epi-title{top:calc(50% + min(28vh,39vw) + 18px);font-weight:800;font-style:italic;font-size:clamp(22px,2.6vw,32px);letter-spacing:-.01em;padding:0 20px;animation:fade .7s ease .75s forwards}
+.epi.fly .epi-tag,.epi.fly .epi-title{animation:none;opacity:0}
+@keyframes epiIn{to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+
 /* scroll reveal */
 .js .rv{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
 .js .rv.in{opacity:1;transform:none}
@@ -644,6 +656,32 @@ function buildGallery(root,items){
   go(0);
 }
 
+
+/* vinheta de episódio: a capa abre grande e depois encolhe até o lugar dela na página */
+document.addEventListener('click',ev=>{const a=ev.target.closest('a.cell'); if(a && !ev.target.closest('[data-play]')) window.__epIntro=true;},true);
+function epIntro(e){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const tgt=$('[data-e=cover]'); if(!tgt) return;
+  const ov=document.createElement('div'); ov.className='epi'; ov.setAttribute('aria-hidden','true');
+  ov.innerHTML=`<div class="epi-tag">[episódio ${e.n}]</div><img class="epi-img" src="${e.cover}" alt=""><div class="epi-title">${e.title}</div>`;
+  document.body.appendChild(ov); tgt.style.visibility='hidden';
+  const img=$('.epi-img',ov); let flown=false;
+  const finish=()=>{ tgt.style.visibility=''; ov.remove(); };
+  const fly=()=>{
+    if(flown) return; flown=true; clearTimeout(t1);
+    const r=img.getBoundingClientRect(), g=tgt.getBoundingClientRect();
+    img.style.animation='none'; img.style.opacity='1';
+    Object.assign(img.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px',transform:'none'});
+    ov.classList.add('fly');
+    const an=img.animate([{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'},
+                          {left:g.left+'px',top:g.top+'px',width:g.width+'px',height:g.height+'px'}],
+                         {duration:850,easing:'cubic-bezier(.7,0,.2,1)',fill:'forwards'});
+    an.onfinish=finish; setTimeout(finish,1400);
+  };
+  const t1=setTimeout(fly,1700);
+  ov.addEventListener('click',fly);
+}
+
 /* routing */
 function route(){
   const h=location.hash.slice(1);
@@ -661,7 +699,8 @@ function route(){
     $('[data-more]').innerHTML=EP_KEYS.filter(k=>k!==h).map(cell).join('');
     $('[data-more]').style.gridTemplateColumns=innerWidth>860?'1fr 1fr':'';
     const pb=$('[data-e=play]'); pb.dataset.k=h; pb.onclick=()=>toggle(h);
-    sync(); tick(); window.scrollTo(0,0);
+    sync(); tick(); window.scrollTo({top:0,behavior:'instant'});
+    if(window.__epIntro){ window.__epIntro=false; epIntro(e); }
     document.title=`${e.title} — omoide 思い出`;
   } else {
     const was=document.body.classList.contains('ep-view');
