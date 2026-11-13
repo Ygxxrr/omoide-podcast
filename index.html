@@ -108,8 +108,17 @@ nav a:hover{opacity:1}
 @media(max-width:700px){.credits .wrap{grid-template-columns:1fr}}
 
 footer{background:var(--ink);color:var(--cream);padding:56px 0 64px}
-footer .f-top{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;padding-bottom:32px;border-bottom:1px solid #4a3328}
-footer .f-top img{height:56px;width:auto}
+footer .f-top{display:flex;justify-content:space-between;align-items:center;gap:32px 48px;flex-wrap:wrap;padding-bottom:32px;border-bottom:1px solid #4a3328}
+.f-brand{display:flex;flex-direction:column;gap:14px;max-width:420px}
+.f-brand img{height:56px;width:auto;align-self:flex-start}
+.f-author{display:flex;align-items:center;gap:18px}
+.f-author>img{width:84px;height:84px;border-radius:50%;object-fit:cover;border:2px solid var(--copper);flex:none}
+.f-author div{display:flex;flex-direction:column;align-items:flex-start}
+.f-role{font-size:12px;font-weight:300;letter-spacing:.06em;opacity:.7}
+.f-author b{font-size:19px;font-weight:700;margin:2px 0 10px}
+.f-port{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;text-decoration:none;padding:7px 14px;border:1px solid rgba(243,229,211,.45);border-radius:999px;transition:background .2s,color .2s,border-color .2s}
+.f-port svg{width:14px;height:14px}
+.f-port:hover{background:var(--cream);color:var(--ink);border-color:var(--cream)}
 footer p{font-size:13px;opacity:.7;max-width:420px}
 footer .f-bot{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;padding-top:26px}
 .f-copy{font-size:12px;opacity:.6}
@@ -410,8 +419,18 @@ body.ep-view #episode{display:block}
 <footer>
   <div class="wrap">
     <div class="f-top">
-      <img src="img/logo.png" alt="omoide 思い出">
-      <p>Omoide — podcast narrativo documental. Trabalho de conclusão de curso em Jornalismo · Universidade São Judas Tadeu · 2026.</p>
+      <div class="f-brand">
+        <img src="img/logo.png" alt="omoide 思い出">
+        <p>Omoide — podcast narrativo documental. Trabalho de conclusão de curso em Jornalismo · Universidade São Judas Tadeu · 2026.</p>
+      </div>
+      <div class="f-author">
+        <img src="img/mariana.jpg" alt="Mariana Nacashima">
+        <div>
+          <span class="f-role">[idealização e direção]</span>
+          <b>Mariana Nacashima</b>
+          <a class="f-port" href="https://portfolio-mariana-nacashima.vercel.app/" target="_blank" rel="noopener">ver portfólio <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
+        </div>
+      </div>
     </div>
     <div class="f-bot">
       <span class="f-copy">© 2026 Omoide · Diagramação e desenvolvimento: Ygor Matos</span>
@@ -606,7 +625,7 @@ addEventListener('resize',()=>{const m=$('[data-more]'); if(m) m.style.gridTempl
 /* scroll reveal: text and blocks fade/slide in as they enter the viewport */
 const RV_SEL=['.hero .sun','.hero .word','.hero .kana','.hero .date','.meaning .tag','.meaning h2','.meaning p','.kanji>div',
  '.stitle','.trailer .cover','.t-lead','.t-sub','.t-q','.trailer .btn','.about p','.cell','.credits dl>div',
- '.crumb','.ep-hero img','.ep-hero>div>*','.ep-body p','.gal','.more h2','footer .f-top img','footer p','footer .f-bot'].join(',');
+ '.crumb','.ep-hero img','.ep-hero>div>*','.ep-body p','.gal','.more h2','.f-brand','.f-author','footer .f-bot'].join(',');
 const io='IntersectionObserver' in window ? new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -8% 0px',threshold:.12}) : null;
 function reveal(root=document){
   const els=$$(RV_SEL,root).filter(el=>!el.classList.contains('rv'));
