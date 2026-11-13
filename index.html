@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>omoide 思い出 — podcast</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=Shippori+Mincho:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#F2E5D3; --cream-2:#EADBC6; --ink:#2B1810; --ink-2:#3A241A;
+  --red:#A3403A; --copper:#B07A50; --muted:#7A675B; --line:#D9C8B3; --ghost:#DFCFBC;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Poppins,system-ui,sans-serif;background:var(--cream);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;padding-bottom:84px}
+img{display:block;max-width:100%}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.jp{font-family:"Shippori Mincho",serif;color:var(--copper)}
+.tag{font-weight:300;letter-spacing:.02em}
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+
+/* header */
+header{position:sticky;top:0;z-index:20;background:var(--ink);color:var(--cream);border-bottom:1px solid #3d2a20}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand img{height:40px;width:auto}
+nav{display:flex;gap:26px;font-size:14px}
+nav a{text-decoration:none;opacity:.8;transition:opacity .2s}
+nav a:hover{opacity:1}
+@media(max-width:640px){nav{gap:14px;font-size:12.5px}.brand img{height:32px}}
+
+/* dark sections */
+.dark{background:var(--ink);color:var(--cream)}
+.hero{min-height:calc(88vh - 64px);display:flex;align-items:center}
+.hero .wrap{display:grid;grid-template-columns:1fr;justify-items:center;gap:22px;text-align:center;padding-top:48px;padding-bottom:64px}
+.hero img{width:min(820px,100%)}
+.hero .date{font-weight:700;font-style:italic;font-size:15px;letter-spacing:.01em}
+.hero .scroll{margin-top:18px;font-size:13px;opacity:.6;text-decoration:none}
+
+.meaning .wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center;padding-top:96px;padding-bottom:110px}
+.meaning h2{font-size:clamp(56px,8vw,96px);font-weight:700;line-height:.95;letter-spacing:-.02em}
+.meaning h2 .jp{font-size:.32em;vertical-align:middle;margin-left:8px;font-weight:600}
+.meaning p{font-size:clamp(17px,1.6vw,21px);font-weight:300;margin-top:16px;max-width:520px}
+.kanji{display:grid;grid-template-columns:1fr 1fr;gap:20px;text-align:center}
+.kanji .k{font-family:"Shippori Mincho",serif;font-weight:800;color:var(--copper);font-size:clamp(96px,13vw,170px);line-height:1}
+.kanji b{display:block;font-size:19px;margin-top:10px}
+.kanji small{display:block;font-size:14px;font-weight:300;opacity:.85}
+@media(max-width:820px){.meaning .wrap{grid-template-columns:1fr}}
+
+/* section titles */
+.stitle{font-size:clamp(44px,7vw,84px);font-weight:700;letter-spacing:-.025em;line-height:1;text-align:center;padding:96px 0 56px}
+
+/* trailer */
+.trailer{text-align:center;padding-bottom:100px}
+.trailer .cover{width:min(360px,80%);margin:0 auto;border-radius:22px;box-shadow:0 18px 40px -20px rgba(43,24,16,.55)}
+.trailer p{font-size:clamp(17px,1.7vw,21px);max-width:640px;margin:24px auto 22px}
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:var(--cream);font-weight:700;font-size:22px;padding:10px 18px;letter-spacing:.01em;transition:background .2s}
+.btn:hover{background:var(--red)}
+.btn svg{width:26px;height:26px}
+.btn.playing{background:var(--red)}
+
+/* sobre */
+.about{position:relative;overflow:hidden;background:var(--cream)}
+.about .stitle{position:relative;z-index:1}
+.about .wrap{padding-bottom:110px;position:relative;z-index:1}
+.about p{font-size:clamp(17px,1.7vw,22px);max-width:640px;margin-bottom:1.2em}
+.ghost{position:absolute;right:-30px;top:230px;font-family:"Shippori Mincho",serif;font-weight:800;color:var(--ghost);font-size:clamp(160px,22vw,300px);line-height:.98;writing-mode:vertical-rl;transform:rotate(-8deg);pointer-events:none;user-select:none;z-index:0}
+@media(max-width:820px){.ghost{opacity:.5}}
+
+/* episode grid — portfolio-style cells with hairline dividers */
+.eps{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.eps-grid{display:grid;grid-template-columns:repeat(3,1fr)}
+.cell{display:block;text-decoration:none;text-align:center;padding:56px 32px 60px;border-right:1px solid var(--line);transition:background .25s}
+.cell:last-child{border-right:0}
+.cell:hover{background:var(--cream-2)}
+.cell img{width:min(300px,82%);margin:0 auto 30px;border-radius:16px;transition:transform .35s}
+.cell:hover img{transform:translateY(-4px)}
+.cell .tag{display:block;color:var(--muted);font-size:17px;letter-spacing:.06em}
+.cell h3{font-size:21px;font-weight:600;margin:10px 0 8px;line-height:1.25}
+.cell .sub{color:var(--muted);font-size:16px;font-weight:300}
+.cell .dur{display:block;margin-top:14px;font-size:13px;color:var(--muted);letter-spacing:.05em}
+@media(max-width:860px){
+  .eps-grid{grid-template-columns:1fr}
+  .cell{border-right:0;border-bottom:1px solid var(--line)}
+  .cell:last-child{border-bottom:0}
+}
+
+/* créditos */
+.credits .wrap{display:grid;grid-template-columns:1fr 1fr;gap:6px 80px;max-width:900px;padding-bottom:110px}
+.credits dl div{margin-bottom:26px}
+.credits dt{font-weight:300;font-size:19px}
+.credits dd{font-weight:700;font-size:20px;line-height:1.3}
+@media(max-width:700px){.credits .wrap{grid-template-columns:1fr}}
+
+footer{background:var(--ink);color:var(--cream);padding:56px 0 64px}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+footer img{height:56px;width:auto}
+footer p{font-size:13px;opacity:.7;max-width:420px}
+
+/* episode page */
+#episode{display:none}
+body.ep-view #home{display:none}
+body.ep-view #episode{display:block}
+.crumb{font-size:14px;padding:36px 0 0;color:var(--muted)}
+.crumb a{text-decoration:none;border-bottom:1px solid var(--line)}
+.ep-hero{display:grid;grid-template-columns:minmax(260px,420px) 1fr;gap:56px;align-items:center;padding:36px 0 64px}
+.ep-hero img{border-radius:22px;box-shadow:0 18px 40px -20px rgba(43,24,16,.55)}
+.ep-hero .tag{font-size:22px}
+.ep-hero h1{font-size:clamp(36px,5vw,62px);font-weight:800;font-style:italic;line-height:1.02;letter-spacing:-.02em;margin:6px 0 14px}
+.ep-hero .who{font-size:18px}
+.ep-hero .who b{font-weight:700}
+.ep-hero .meta{font-size:13px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin:6px 0 26px}
+.player{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.player .bar{flex:1;min-width:180px}
+.track{position:relative;height:6px;background:var(--line);border-radius:3px;cursor:pointer}
+.track i{position:absolute;left:0;top:0;bottom:0;background:var(--red);border-radius:3px;width:0}
+.times{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:6px;font-variant-numeric:tabular-nums}
+@media(max-width:820px){.ep-hero{grid-template-columns:1fr;gap:30px}.ep-hero img{width:min(380px,100%)}}
+
+.ep-body{border-top:1px solid var(--line);padding:64px 0}
+.ep-body p{font-size:clamp(17px,1.6vw,21px);max-width:720px}
+.ep-body p em{font-weight:700}
+
+.gallery{border-top:1px solid var(--line);padding:64px 0 80px}
+.gallery h2{font-weight:300;font-size:26px;margin-bottom:30px}
+.g-item{display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:start;margin-bottom:56px}
+.frame{background:var(--ink);padding:clamp(14px,2vw,26px);cursor:zoom-in}
+.frame.p img{width:min(380px,62vw)}
+.frame.l img{width:min(620px,78vw)}
+.g-item figcaption{font-size:clamp(16px,1.5vw,20px);max-width:380px}
+@media(max-width:820px){.g-item{grid-template-columns:1fr}}
+
+.more h2{font-weight:300;font-size:22px;text-align:center;padding:24px 0 30px}
+
+/* bottom player */
+.mini{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--ink);color:var(--cream);transform:translateY(110%);visibility:hidden;transition:transform .35s,visibility .35s}
+.mini.on{transform:none;visibility:visible}
+.mini .wrap{display:flex;align-items:center;gap:14px;height:72px}
+.mini img{width:48px;height:48px;border-radius:8px}
+.mini .ti{min-width:0;flex:0 1 260px}
+.mini .ti b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini .ti span{font-size:12px;opacity:.65}
+.mini .pp{width:42px;height:42px;border-radius:50%;background:var(--cream);color:var(--ink);display:grid;place-items:center;flex:none}
+.mini .pp svg{width:18px;height:18px}
+.mini .skip{font-size:12px;opacity:.75;flex:none}
+.mini .bar{flex:1;min-width:80px}
+.mini .track{background:#4a3328}
+.mini .times{color:#bfae9f}
+@media(max-width:640px){.mini .skip,.mini .ti span{display:none}.mini .ti{flex-basis:120px}}
+
+/* lightbox */
+.lb{position:fixed;inset:0;background:rgba(20,10,6,.92);display:none;place-items:center;z-index:50;padding:24px;cursor:zoom-out}
+.lb.on{display:grid}
+.lb img{max-height:90vh;max-width:94vw}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="#inicio" aria-label="omoide — início"><img src="img/logo.png" alt="omoide 思い出"></a>
+    <nav>
+      <a href="#sobre">sobre</a>
+      <a href="#episodios">episódios</a>
+      <a href="#creditos">créditos</a>
+    </nav>
+  </div>
+</header>
+
+<main id="home">
+  <section class="dark hero" id="inicio">
+    <div class="wrap">
+      <img src="img/logo.png" alt="omoide 思い出">
+      <span class="date">novembro 2026</span>
+      <a class="scroll" href="#significado">↓</a>
+    </div>
+  </section>
+
+  <section class="dark meaning" id="significado">
+    <div class="wrap">
+      <div>
+        <span class="tag" style="font-size:22px">[significado]</span>
+        <h2>omoide<span class="jp">思い出</span></h2>
+        <p>É a lembrança carregada de emoção, a memória que se conta a alguém. O podcast nasce dessa ideia: contar as histórias de imigrantes japoneses a partir de memórias afetivas ligadas à agricultura.</p>
+      </div>
+      <div class="kanji">
+        <div><div class="k">思</div><b>pensar, sentir</b><small>田 (campo) sobre<br>心 (coração)</small></div>
+        <div><div class="k">出</div><b>sair, emergir</b><small>a lembrança que<br>vem à tona</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="trailer" id="trailer">
+    <h2 class="stitle">trailer: conheça o<br>podcast omoide</h2>
+    <img class="cover" src="img/capa-podcast.jpg" alt="Capa do podcast omoide">
+    <p>Memórias de imigrantes japoneses do Alto Tietê (SP), contadas através da terra. Três histórias, três gerações, uma pergunta: o que fica?</p>
+    <button class="btn" data-play="trailer"><span>OUVIR</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+    </button>
+  </section>
+
+  <section class="about" id="sobre">
+    <div class="ghost" aria-hidden="true">思い出</div>
+    <h2 class="stitle">sobre o podcast.</h2>
+    <div class="wrap">
+      <p><b>Omoide</b> é um podcast narrativo documental em três episódios que registra as memórias afetivas de imigrantes japoneses e seus descendentes na região do Alto Tietê, em São Paulo, contadas através da agricultura. Histórias que a terra guarda.</p>
+      <p>Ao acompanhar as trajetórias de Sakae Urakawa, Sakae Muramatsu e Ercílio Hoçoya, o projeto reflete sobre trabalho, pertencimento e sucessão entre gerações, preservando histórias que correm o risco de se perder.</p>
+      <p>O projeto é autoral de conclusão de curso em Jornalismo assinado por Mariana Nacashima.</p>
+    </div>
+  </section>
+
+  <section id="episodios">
+    <h2 class="stitle">episódios.</h2>
+    <div class="eps"><div class="eps-grid" data-list></div></div>
+  </section>
+
+  <section class="credits" id="creditos">
+    <h2 class="stitle">créditos.</h2>
+    <div class="wrap">
+      <dl>
+        <div><dt>[Apresentação]</dt><dd>Mariana Nacashima</dd></div>
+        <div><dt>[Reportagem]</dt><dd>Mariana Nacashima</dd></div>
+        <div><dt>[Direção criativa]</dt><dd>Mariana Nacashima<br>Prof. Ana Vasconcelos</dd></div>
+        <div><dt>[Repórter e roteirista]</dt><dd>Mariana Nacashima</dd></div>
+        <div><dt>[Edição]</dt><dd>Mariana Nacashima</dd></div>
+        <div><dt>[Identidade visual]</dt><dd>Mariana Nacashima</dd></div>
+      </dl>
+      <dl>
+        <div><dt>[Música tema]</dt><dd>Japan’s Serenity</dd></div>
+        <div><dt>[Efeitos sonoros]</dt><dd>Wildfire Games (jogo 0 A.D.)<br>Mito551 (via Minetest Game)<br>Freesound.org</dd></div>
+        <div><dt>[Revisão e orientação de projeto]</dt><dd>Prof. Ana Vasconcelos</dd></div>
+        <div><dt>[Diagramação do site]</dt><dd>Ygor Silva Matos</dd></div>
+        <div><dt>[Realização]</dt><dd>Universidade São Judas Tadeu</dd></div>
+      </dl>
+    </div>
+  </section>
+</main>
+
+<main id="episode">
+  <div class="wrap">
+    <div class="crumb"><a href="#episodios">← episódios</a> &nbsp;|&nbsp; <span data-e="crumb"></span></div>
+    <div class="ep-hero">
+      <img data-e="cover" alt="">
+      <div>
+        <span class="tag" data-e="tag"></span>
+        <h1 data-e="title"></h1>
+        <div class="who" data-e="who"></div>
+        <div class="meta" data-e="meta"></div>
+        <div class="player">
+          <button class="btn" data-e="play"><span>OUVIR</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+          </button>
+          <div class="bar"><div class="track" data-seek><i></i></div><div class="times"><span data-cur>0:00</span><span data-dur>0:00</span></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="ep-body"><p data-e="desc"></p></div>
+    <div class="gallery">
+      <h2>[galeria]</h2>
+      <div data-e="gallery"></div>
+    </div>
+  </div>
+  <section class="more">
+    <h2>[outros episódios]</h2>
+    <div class="eps"><div class="eps-grid" data-more></div></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img src="img/logo.png" alt="omoide 思い出">
+    <p>Omoide — podcast narrativo documental. Trabalho de conclusão de curso em Jornalismo · Universidade São Judas Tadeu · 2026.</p>
+  </div>
+</footer>
+
+<div class="mini" id="mini">
+  <div class="wrap">
+    <img data-m="cover" alt="">
+    <div class="ti"><b data-m="title"></b><span data-m="sub"></span></div>
+    <button class="skip" data-skip="-15">−15s</button>
+    <button class="pp" data-m="pp" aria-label="tocar/pausar"></button>
+    <button class="skip" data-skip="15">+15s</button>
+    <div class="bar"><div class="track" data-seek><i></i></div><div class="times"><span data-cur>0:00</span><span data-dur>0:00</span></div></div>
+  </div>
+</div>
+
+<div class="lb" id="lb"><img alt=""></div>
+<audio id="au" preload="none"></audio>
+
+<script>
+const EPS = {
+  trailer:{n:0,src:'audio/trailer.mp3',cover:'img/capa-podcast.jpg',title:'trailer: conheça o podcast omoide',sub:'omoide 思い出',dur:'1:40'},
+  'episodio-1':{n:1,src:'audio/ep1.mp3',cover:'img/capa-ep1.jpg',title:'tenho raiz para isso',guest:'Sakae Urakawa',dur:'8:48',
+    desc:'<b>Sakae Urakawa</b> nasceu em Yamaguchi, no Japão, e chegou ao Brasil em 1963, aos 14 anos. Como filho mais velho, precisou trabalhar para sustentar os irmãos, e a infância ficou pelo caminho. Em 1973, comprou um terreno financiado, sem ter nada guardado, e foi plantando tomate, morango e, mais tarde, hortaliças para a feira de Santa Isabel (SP). Hoje, aos 76 anos, já passou a terra aos filhos, mas <em><i>não pensa em largar o trator</i></em>.',
+    gal:[['img/ep1-galeria-1.jpg','p','Sakae Urakawa© / Imagem: Mariana Nacashima'],['img/ep1-galeria-2.jpg','l','Da esquerda para a direita, Marcelo Nacashima (pai de Mariana), Sakae Urakawa, Maria Urakawa (esposa de Sakae) e Mariana Nacashima, em foto no dia da entrevista©']]},
+  'episodio-2':{n:2,src:'audio/ep2.mp3',cover:'img/capa-ep2.jpg',title:'o que a terra ensina',guest:'Sakae Muramatsu',dur:'13:04',
+    desc:'<b>Sakae Muramatsu</b> tem 84 anos e vive em Santa Isabel há mais de seis décadas. Filho de imigrantes de Shizuoka e de Hokkaido, começou a trabalhar aos 13 anos, quando o pai adoeceu, e passou por algodão, melancia, goiaba e caqui. Depois de tanto trabalho, descobriu que <em><i>sítio bom é sítio sossegado</i></em>. Ele conta sua vida com a ajuda do filho do Ernesto, porque algumas coisas só cabem em japonês. No meio da conversa, a história dele cruza com a da família da repórter.',
+    gal:[['img/ep2-galeria-1.jpg','p','Sakae Muramatsu© / Imagem: Acervo pessoal'],['img/ep2-galeria-2.jpg','l','Da esquerda para a direita, Sakae Muramatsu, Marcelo Nacashima (pai de Mariana), Ernesto Muramatsu (filho de Sakae) e Mariana Nacashima, em foto no dia da entrevista©']]},
+  'episodio-3':{n:3,src:'audio/ep3.mp3',cover:'img/capa-ep3.jpg',title:'passar o bastão sem arrancar a raiz',guest:'Ercílio Hoçoya',dur:'9:28',
+    desc:'<b>Ercílio Hoçoya</b> é a terceira geração de uma família que atravessou o mundo e transformou um caquizal em referência. Os pais dele ainda trabalham no sítio, em Mogi das Cruzes (SP), mas ele guarda uma lembrança difícil: o avô, aos poucos, sendo afastado do próprio trabalho. A partir dela, Ercílio fez outra escolha. Neste último episódio, uma conversa sobre sucessão, sobre o que se perde quando ninguém assume e sobre <em><i>envelhecer sem se sentir inútil</i></em>.',
+    gal:[['img/ep3-galeria-1.jpg','p','Ercílio Hoçoya© / Imagem: Mariana Nacashima'],['img/ep3-galeria-2.jpg','l','Da esquerda para a direita, Mariana Nacashima, Ercílio Hoçoya e Ygor Matos, em foto no dia da entrevista©']]}
+};
+const EP_KEYS = ['episodio-1','episodio-2','episodio-3'];
+const $ = (s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const ICON_PLAY='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg>';
+const ICON_PAUSE='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>';
+
+function cell(k){const e=EPS[k];return `<a class="cell" href="#${k}"><img src="${e.cover}" alt="Capa — ${e.guest}"><span class="tag">[episódio ${e.n}]</span><h3>${e.title}</h3><span class="sub">com ${e.guest}</span><span class="dur">${e.dur} min</span></a>`}
+$('[data-list]').innerHTML = EP_KEYS.map(cell).join('');
+
+/* audio */
+const au=$('#au'); let cur=null;
+const fmt=s=>{if(!isFinite(s))return'0:00';s=Math.floor(s);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
+function load(k){ if(cur===k) return; cur=k; const e=EPS[k]; au.src=e.src; au.preload='auto';
+  $('[data-m=cover]').src=e.cover; $('[data-m=title]').textContent=e.n?`${e.n}. ${e.title}`:e.title;
+  $('[data-m=sub]').textContent=e.n?`omoide · com ${e.guest}`:e.sub; $('#mini').classList.add('on'); }
+function toggle(k){ if(k && cur!==k){load(k); au.play().catch(()=>{}); return;} if(au.paused) au.play().catch(()=>{}); else au.pause(); }
+function sync(){
+  const playing=!au.paused;
+  $('[data-m=pp]').innerHTML=playing?ICON_PAUSE:ICON_PLAY;
+  $$('[data-play]').forEach(b=>{const on=playing&&b.dataset.play===cur;b.classList.toggle('playing',on);b.querySelector('span').textContent=on?'PAUSAR':'OUVIR'});
+  const ep=$('[data-e=play]'); if(ep){const on=playing&&ep.dataset.k===cur; ep.classList.toggle('playing',on); ep.querySelector('span').textContent=on?'PAUSAR':(ep.dataset.k===cur&&au.currentTime>1?'CONTINUAR':'OUVIR');}
+}
+function tick(){
+  const p=au.duration?au.currentTime/au.duration*100:0;
+  $$('.mini [data-seek] i').forEach(i=>i.style.width=p+'%');
+  $$('.mini [data-cur]').forEach(x=>x.textContent=fmt(au.currentTime));
+  $$('.mini [data-dur]').forEach(x=>x.textContent=fmt(au.duration));
+  const ep=$('#episode'), k=$('[data-e=play]').dataset.k;
+  $('[data-seek] i',ep).style.width=(k===cur?p:0)+'%';
+  $('[data-cur]',ep).textContent=k===cur?fmt(au.currentTime):'0:00';
+}
+['play','pause','ended'].forEach(ev=>au.addEventListener(ev,sync));
+au.addEventListener('timeupdate',tick); au.addEventListener('loadedmetadata',tick);
+$$('[data-play]').forEach(b=>b.addEventListener('click',()=>toggle(b.dataset.play)));
+$('[data-m=pp]').addEventListener('click',()=>toggle());
+$$('[data-skip]').forEach(b=>b.addEventListener('click',()=>{au.currentTime=Math.max(0,au.currentTime+ +b.dataset.skip)}));
+$$('[data-seek]').forEach(t=>t.addEventListener('click',ev=>{
+  const inEp=t.closest('#episode'); if(inEp){const k=$('[data-e=play]').dataset.k; if(cur!==k){load(k);} }
+  const r=t.getBoundingClientRect(), f=(ev.clientX-r.left)/r.width;
+  const go=()=>{au.currentTime=f*au.duration; au.play().catch(()=>{})};
+  au.duration?go():au.addEventListener('loadedmetadata',go,{once:true});
+}));
+$('[data-m=pp]').innerHTML=ICON_PLAY;
+
+/* routing */
+function route(){
+  const h=location.hash.slice(1);
+  if(EPS[h] && h!=='trailer'){
+    const e=EPS[h]; document.body.classList.add('ep-view');
+    $('[data-e=crumb]').textContent=`[episódio ${e.n}] omoide`;
+    $('[data-e=cover]').src=e.cover; $('[data-e=cover]').alt='Capa — '+e.guest;
+    $('[data-e=tag]').textContent=`[episódio ${e.n}]`;
+    $('[data-e=title]').textContent=e.title;
+    $('[data-e=who]').innerHTML=`com <b>${e.guest}</b>`;
+    $('[data-e=meta]').textContent=`novembro 2026 · ${e.dur} min`;
+    $('#episode [data-dur]').textContent=e.dur;
+    $('[data-e=desc]').innerHTML=e.desc;
+    $('[data-e=gallery]').innerHTML=e.gal.map(([s,o,c])=>`<figure class="g-item"><div class="frame ${o}"><img src="${s}" alt="${c.replace(/"/g,'')}"></div><figcaption>${c}</figcaption></figure>`).join('');
+    $('[data-more]').innerHTML=EP_KEYS.filter(k=>k!==h).map(cell).join('');
+    $('[data-more]').style.gridTemplateColumns=innerWidth>860?'1fr 1fr':'';
+    const pb=$('[data-e=play]'); pb.dataset.k=h; pb.onclick=()=>toggle(h);
+    sync(); tick(); window.scrollTo(0,0);
+    document.title=`${e.title} — omoide 思い出`;
+  } else {
+    const was=document.body.classList.contains('ep-view');
+    document.body.classList.remove('ep-view'); document.title='omoide 思い出 — podcast';
+    if(was||h){const t=h&&document.getElementById(h); requestAnimationFrame(()=>t?t.scrollIntoView():window.scrollTo(0,0));}
+  }
+}
+addEventListener('hashchange',route); route();
+addEventListener('resize',()=>{const m=$('[data-more]'); if(m) m.style.gridTemplateColumns=innerWidth>860?'1fr 1fr':''});
+
+/* lightbox */
+document.addEventListener('click',ev=>{const f=ev.target.closest('.frame'); if(f){$('#lb img').src=$('img',f).src;$('#lb').classList.add('on')}});
+$('#lb').addEventListener('click',()=>$('#lb').classList.remove('on'));
+addEventListener('keydown',ev=>{if(ev.key==='Escape')$('#lb').classList.remove('on')});
+</script>
+</body>
+</html>
