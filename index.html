@@ -36,8 +36,11 @@ nav a:hover{opacity:1}
 /* dark sections */
 .dark{background:var(--ink);color:var(--cream)}
 .hero{min-height:calc(88vh - 64px);display:flex;align-items:center}
-.hero .wrap{display:grid;grid-template-columns:1fr;justify-items:center;gap:22px;text-align:center;padding-top:48px;padding-bottom:64px}
-.hero img{width:min(820px,100%)}
+.hero .wrap{display:grid;grid-template-columns:1fr;justify-items:center;gap:18px;text-align:center;padding-top:48px;padding-bottom:64px}
+.hero .lockup{display:flex;flex-direction:column;align-items:center}
+.hero .sun{width:min(260px,54vw);height:auto}
+.hero .word{font-weight:700;font-size:clamp(56px,9vw,104px);line-height:1;letter-spacing:-.02em;margin-top:18px}
+.hero .kana{font-family:"Shippori Mincho",serif;color:var(--copper);font-size:clamp(28px,4.4vw,48px);letter-spacing:.35em;margin:6px 0 0 .35em}
 .hero .date{font-weight:700;font-style:italic;font-size:15px;letter-spacing:.01em}
 .hero .scroll{margin-top:18px;font-size:13px;opacity:.6;text-decoration:none}
 
@@ -216,7 +219,11 @@ body.ep-view #episode{display:block}
 <main id="home">
   <section class="dark hero" id="inicio">
     <div class="wrap">
-      <img src="img/logo.png" alt="omoide 思い出">
+      <div class="lockup" role="img" aria-label="omoide 思い出">
+        <img class="sun" src="img/ilustracao.png" alt="">
+        <div class="word">omoide</div>
+        <div class="kana">思い出</div>
+      </div>
       <span class="date">novembro 2026</span>
       <a class="scroll" href="#significado">↓</a>
     </div>
@@ -431,7 +438,7 @@ addEventListener('resize',()=>{const m=$('[data-more]'); if(m) m.style.gridTempl
 })();
 
 /* scroll reveal: text and blocks fade/slide in as they enter the viewport */
-const RV_SEL=['.hero img','.hero .date','.meaning .tag','.meaning h2','.meaning p','.kanji>div',
+const RV_SEL=['.hero .sun','.hero .word','.hero .kana','.hero .date','.meaning .tag','.meaning h2','.meaning p','.kanji>div',
  '.stitle','.trailer .cover','.trailer p','.trailer .btn','.about p','.cell','.credits dl>div',
  '.crumb','.ep-hero img','.ep-hero>div>*','.ep-body p','.gallery h2','.g-item .frame','.g-item figcaption','.more h2','footer img','footer p'].join(',');
 const io='IntersectionObserver' in window ? new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -8% 0px',threshold:.12}) : null;
