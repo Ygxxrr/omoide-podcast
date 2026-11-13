@@ -155,17 +155,34 @@ body.ep-view #episode{display:block}
 .mini{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--ink);color:var(--cream);transform:translateY(110%);visibility:hidden;transition:transform .35s,visibility .35s}
 .mini.on{transform:none;visibility:visible}
 .mini .wrap{display:flex;align-items:center;gap:14px;height:72px}
+.mini{isolation:isolate}
 .mini img{width:48px;height:48px;border-radius:8px}
 .mini .ti{min-width:0;flex:0 1 260px}
 .mini .ti b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mini .ti span{font-size:12px;opacity:.65}
-.mini .pp{width:42px;height:42px;border-radius:50%;background:var(--cream);color:var(--ink);display:grid;place-items:center;flex:none}
-.mini .pp svg{width:18px;height:18px}
-.mini .skip{font-size:12px;opacity:.75;flex:none}
+/* music-style controls */
+.ctrls{display:flex;align-items:center;gap:6px;flex:none}
+.cb{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;transition:background .2s,opacity .2s,color .2s}
+.cb svg{width:22px;height:22px}
+.cb:hover:not(:disabled){background:rgba(127,90,70,.18)}
+.cb:disabled{opacity:.3;cursor:default}
+.cb.pp{width:46px;height:46px;background:var(--ink);color:var(--cream)}
+.cb.pp svg{width:18px;height:18px}
+.cb.pp:hover{background:var(--red)}
+.mini .cb.pp{background:var(--cream);color:var(--ink)}
+.mini .cb.pp:hover{background:#fff}
+.player .ctrls{flex-basis:100%;margin-top:4px;max-height:0;overflow:hidden;opacity:0;transition:max-height .45s ease,opacity .45s ease}
+.player.started .ctrls{max-height:60px;opacity:1}
 .mini .bar{flex:1;min-width:80px}
 .mini .track{background:#4a3328}
 .mini .times{color:#bfae9f}
-@media(max-width:640px){.mini .skip,.mini .ti span{display:none}.mini .ti{flex-basis:120px}}
+@media(max-width:700px){
+  .mini .wrap{gap:8px;padding:0 12px}
+  .mini img{width:40px;height:40px}
+  .mini .ti span{display:none}.mini .ti{flex:1 1 auto}.mini .ti b{font-size:12.5px}
+  .mini .ctrls{gap:0}.mini .cb{width:36px;height:36px}.mini .cb svg{width:19px;height:19px}.mini .cb.pp{width:40px;height:40px}
+  .mini .bar{position:absolute;left:0;right:0;top:0;min-width:0}.mini .times{display:none}.mini .track{height:3px;border-radius:0}
+}
 
 /* scroll reveal */
 .js .rv{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
@@ -316,6 +333,11 @@ body.ep-view #episode{display:block}
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
           </button>
           <div class="bar"><div class="track" data-seek><i></i></div><div class="times"><span data-cur>0:00</span><span data-dur>0:00</span></div></div>
+          <div class="ctrls" data-e="ctrls"><button type="button" class="cb" data-step="-1" aria-label="Episódio anterior"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6zM20 5v14L9.5 12z"/></svg></button>
+<button type="button" class="cb" data-skip="-10" aria-label="Voltar 10 segundos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.6-5.9"/><path d="M4 4v4h4"/><text x="12" y="15.6" text-anchor="middle" font-size="7.4" font-weight="700" fill="currentColor" stroke="none" font-family="Poppins,sans-serif">10</text></svg></button>
+<button type="button" class="cb pp" data-pp aria-label="Tocar ou pausar"></button>
+<button type="button" class="cb" data-skip="10" aria-label="Avançar 10 segundos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v4h-4"/><text x="12" y="15.6" text-anchor="middle" font-size="7.4" font-weight="700" fill="currentColor" stroke="none" font-family="Poppins,sans-serif">10</text></svg></button>
+<button type="button" class="cb" data-step="1" aria-label="Próximo episódio"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM4 5v14l10.5-7z"/></svg></button></div>
         </div>
       </div>
     </div>
@@ -341,9 +363,11 @@ body.ep-view #episode{display:block}
   <div class="wrap">
     <img data-m="cover" alt="">
     <div class="ti"><b data-m="title"></b><span data-m="sub"></span></div>
-    <button class="skip" data-skip="-15">−15s</button>
-    <button class="pp" data-m="pp" aria-label="tocar/pausar"></button>
-    <button class="skip" data-skip="15">+15s</button>
+    <div class="ctrls"><button type="button" class="cb" data-step="-1" aria-label="Episódio anterior"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6zM20 5v14L9.5 12z"/></svg></button>
+<button type="button" class="cb" data-skip="-10" aria-label="Voltar 10 segundos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.6-5.9"/><path d="M4 4v4h4"/><text x="12" y="15.6" text-anchor="middle" font-size="7.4" font-weight="700" fill="currentColor" stroke="none" font-family="Poppins,sans-serif">10</text></svg></button>
+<button type="button" class="cb pp" data-pp data-m="pp" aria-label="Tocar ou pausar"></button>
+<button type="button" class="cb" data-skip="10" aria-label="Avançar 10 segundos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v4h-4"/><text x="12" y="15.6" text-anchor="middle" font-size="7.4" font-weight="700" fill="currentColor" stroke="none" font-family="Poppins,sans-serif">10</text></svg></button>
+<button type="button" class="cb" data-step="1" aria-label="Próximo episódio"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM4 5v14l10.5-7z"/></svg></button></div>
     <div class="bar"><div class="track" data-seek><i></i></div><div class="times"><span data-cur>0:00</span><span data-dur>0:00</span></div></div>
   </div>
 </div>
@@ -381,9 +405,10 @@ function load(k){ if(cur===k) return; cur=k; const e=EPS[k]; au.src=e.src; au.pr
 function toggle(k){ if(k && cur!==k){load(k); au.play().catch(()=>{}); return;} if(au.paused) au.play().catch(()=>{}); else au.pause(); }
 function sync(){
   const playing=!au.paused;
-  $('[data-m=pp]').innerHTML=playing?ICON_PAUSE:ICON_PLAY;
+  $$('[data-pp]').forEach(b=>b.innerHTML=playing?ICON_PAUSE:ICON_PLAY);
+  const i=ORDER.indexOf(cur); $$('[data-step="-1"]').forEach(b=>b.disabled=i<=0); $$('[data-step="1"]').forEach(b=>b.disabled=i<0||i>=ORDER.length-1);
   $$('[data-play]').forEach(b=>{const on=playing&&b.dataset.play===cur;b.classList.toggle('playing',on);b.querySelector('span').textContent=on?'PAUSAR':'OUVIR'});
-  const ep=$('[data-e=play]'); if(ep){const on=playing&&ep.dataset.k===cur; ep.classList.toggle('playing',on); ep.querySelector('span').textContent=on?'PAUSAR':(ep.dataset.k===cur&&au.currentTime>1?'CONTINUAR':'OUVIR');}
+  const ep=$('[data-e=play]'); if(ep){ep.closest('.player').classList.toggle('started',ep.dataset.k===cur); const on=playing&&ep.dataset.k===cur; ep.classList.toggle('playing',on); ep.querySelector('span').textContent=on?'PAUSAR':(ep.dataset.k===cur&&au.currentTime>1?'CONTINUAR':'OUVIR');}
 }
 function tick(){
   const p=au.duration?au.currentTime/au.duration*100:0;
@@ -397,15 +422,24 @@ function tick(){
 ['play','pause','ended'].forEach(ev=>au.addEventListener(ev,sync));
 au.addEventListener('timeupdate',tick); au.addEventListener('loadedmetadata',tick);
 $$('[data-play]').forEach(b=>b.addEventListener('click',()=>toggle(b.dataset.play)));
-$('[data-m=pp]').addEventListener('click',()=>toggle());
-$$('[data-skip]').forEach(b=>b.addEventListener('click',()=>{au.currentTime=Math.max(0,au.currentTime+ +b.dataset.skip)}));
+const ORDER=['trailer',...EP_KEYS];
+function step(d){
+  const n=ORDER.indexOf(cur)+d; if(n<0||n>=ORDER.length) return;
+  const k=ORDER[n]; load(k); au.play().catch(()=>{});
+  if(document.body.classList.contains('ep-view') && k!=='trailer') location.hash=k;
+  sync();
+}
+$$('[data-pp]').forEach(b=>b.addEventListener('click',()=>toggle()));
+$$('[data-skip]').forEach(b=>b.addEventListener('click',()=>{ if(!cur) return; const t=au.currentTime+ +b.dataset.skip; au.currentTime=Math.max(0,Math.min(isFinite(au.duration)?au.duration-0.5:t,t)); tick(); }));
+$$('[data-step]').forEach(b=>b.addEventListener('click',()=>step(+b.dataset.step)));
+au.addEventListener('ended',()=>{ if(ORDER.indexOf(cur)<ORDER.length-1) step(1); });
 $$('[data-seek]').forEach(t=>t.addEventListener('click',ev=>{
   const inEp=t.closest('#episode'); if(inEp){const k=$('[data-e=play]').dataset.k; if(cur!==k){load(k);} }
   const r=t.getBoundingClientRect(), f=(ev.clientX-r.left)/r.width;
   const go=()=>{au.currentTime=f*au.duration; au.play().catch(()=>{})};
   au.duration?go():au.addEventListener('loadedmetadata',go,{once:true});
 }));
-$('[data-m=pp]').innerHTML=ICON_PLAY;
+$$('[data-pp]').forEach(b=>b.innerHTML=ICON_PLAY);
 
 
 /* galeria em carrossel: setas, barras de progresso, arrastar no celular */
