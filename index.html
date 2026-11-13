@@ -100,9 +100,14 @@ nav a:hover{opacity:1}
 @media(max-width:700px){.credits .wrap{grid-template-columns:1fr}}
 
 footer{background:var(--ink);color:var(--cream);padding:56px 0 64px}
-footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
-footer img{height:56px;width:auto}
+footer .f-top{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;padding-bottom:32px;border-bottom:1px solid #4a3328}
+footer .f-top img{height:56px;width:auto}
 footer p{font-size:13px;opacity:.7;max-width:420px}
+footer .f-bot{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;padding-top:26px}
+.f-copy{font-size:12px;opacity:.6}
+.powered{display:inline-flex;align-items:center;gap:12px;background:#0E3B2C;border:1px solid #1f5a45;border-radius:10px;padding:9px 16px 9px 14px}
+.powered span{font-size:11px;letter-spacing:.06em;color:#F3EFE6;opacity:.85;white-space:nowrap}
+.powered img{height:24px;width:auto}
 
 /* episode page */
 #episode{display:none}
@@ -354,8 +359,17 @@ body.ep-view #episode{display:block}
 
 <footer>
   <div class="wrap">
-    <img src="img/logo.png" alt="omoide 思い出">
-    <p>Omoide — podcast narrativo documental. Trabalho de conclusão de curso em Jornalismo · Universidade São Judas Tadeu · 2026.</p>
+    <div class="f-top">
+      <img src="img/logo.png" alt="omoide 思い出">
+      <p>Omoide — podcast narrativo documental. Trabalho de conclusão de curso em Jornalismo · Universidade São Judas Tadeu · 2026.</p>
+    </div>
+    <div class="f-bot">
+      <span class="f-copy">© 2026 Omoide · Diagramação e desenvolvimento: Ygor Silva Matos</span>
+      <div class="powered" aria-label="Powered by ergos">
+        <span>Powered by</span>
+        <img src="img/ergos.png" alt="ergos">
+      </div>
+    </div>
   </div>
 </footer>
 
@@ -507,7 +521,7 @@ addEventListener('resize',()=>{const m=$('[data-more]'); if(m) m.style.gridTempl
 /* scroll reveal: text and blocks fade/slide in as they enter the viewport */
 const RV_SEL=['.hero .sun','.hero .word','.hero .kana','.hero .date','.meaning .tag','.meaning h2','.meaning p','.kanji>div',
  '.stitle','.trailer .cover','.trailer p','.trailer .btn','.about p','.cell','.credits dl>div',
- '.crumb','.ep-hero img','.ep-hero>div>*','.ep-body p','.gal','.more h2','footer img','footer p'].join(',');
+ '.crumb','.ep-hero img','.ep-hero>div>*','.ep-body p','.gal','.more h2','footer .f-top img','footer p','footer .f-bot'].join(',');
 const io='IntersectionObserver' in window ? new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -8% 0px',threshold:.12}) : null;
 function reveal(root=document){
   const els=$$(RV_SEL,root).filter(el=>!el.classList.contains('rv'));
