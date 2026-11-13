@@ -87,6 +87,8 @@ nav a:hover{opacity:1}
 .cell h3{font-size:21px;font-weight:600;margin:10px 0 8px;line-height:1.25}
 .cell .sub{color:var(--muted);font-size:16px;font-weight:300}
 .cell .dur{display:block;margin-top:14px;font-size:13px;color:var(--muted);letter-spacing:.05em}
+.btn.sm{font-size:16px;padding:8px 14px;gap:8px;margin-top:16px}
+.btn.sm svg{width:20px;height:20px}
 @media(max-width:860px){
   .eps-grid{grid-template-columns:1fr}
   .cell{border-right:0;border-bottom:1px solid var(--line)}
@@ -452,7 +454,7 @@ const $ = (s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySele
 const ICON_PLAY='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg>';
 const ICON_PAUSE='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>';
 
-function cell(k){const e=EPS[k];return `<a class="cell" href="#${k}"><img src="${e.cover}" alt="Capa — ${e.guest}"><span class="tag">[episódio ${e.n}]</span><h3>${e.title}</h3><span class="sub">com ${e.guest}</span><span class="dur">${e.dur} min</span></a>`}
+function cell(k){const e=EPS[k];return `<a class="cell" href="#${k}"><img src="${e.cover}" alt="Capa — ${e.guest}"><span class="tag">[episódio ${e.n}]</span><h3>${e.title}</h3><span class="sub">com ${e.guest}</span><span class="dur">${e.dur} min</span><span class="btn sm" role="button" tabindex="0" data-play="${k}" aria-label="Ouvir episódio ${e.n}"><span>OUVIR</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></span></a>`}
 $('[data-list]').innerHTML = EP_KEYS.map(cell).join('');
 
 /* audio */
@@ -480,7 +482,8 @@ function tick(){
 }
 ['play','pause','ended'].forEach(ev=>au.addEventListener(ev,sync));
 au.addEventListener('timeupdate',tick); au.addEventListener('loadedmetadata',tick);
-$$('[data-play]').forEach(b=>b.addEventListener('click',()=>toggle(b.dataset.play)));
+document.addEventListener('click',ev=>{const b=ev.target.closest('[data-play]'); if(!b) return; ev.preventDefault(); ev.stopPropagation(); toggle(b.dataset.play); sync();});
+document.addEventListener('keydown',ev=>{const b=ev.target.closest&&ev.target.closest('.cell [data-play]'); if(b&&(ev.key==='Enter'||ev.key===' ')){ev.preventDefault();toggle(b.dataset.play);sync();}});
 const ORDER=['trailer',...EP_KEYS];
 function step(d){
   const n=ORDER.indexOf(cur)+d; if(n<0||n>=ORDER.length) return;
