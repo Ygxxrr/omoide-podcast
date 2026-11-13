@@ -129,13 +129,25 @@ body.ep-view #episode{display:block}
 .ep-body p em{font-weight:700}
 
 .gallery{border-top:1px solid var(--line);padding:64px 0 80px}
-.gallery h2{font-weight:300;font-size:26px;margin-bottom:30px}
-.g-item{display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:start;margin-bottom:56px}
-.frame{background:var(--ink);padding:clamp(14px,2vw,26px);cursor:zoom-in}
-.frame.p img{width:min(380px,62vw)}
-.frame.l img{width:min(620px,78vw)}
-.g-item figcaption{font-size:clamp(16px,1.5vw,20px);max-width:380px}
-@media(max-width:820px){.g-item{grid-template-columns:1fr}}
+.gal{max-width:760px}
+.gal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.gal-head .lbl{font-size:clamp(20px,2.2vw,26px);letter-spacing:.06em;text-transform:uppercase;font-weight:400}
+.gal-head .lbl span{margin-left:12px;font-variant-numeric:tabular-nums}
+.gal-nav{display:flex;gap:12px}
+.gal-nav button{width:46px;height:46px;border:1.5px solid var(--ink);border-radius:50%;display:grid;place-items:center;transition:background .2s,color .2s,opacity .2s}
+.gal-nav button:hover:not(:disabled){background:var(--ink);color:var(--cream)}
+.gal-nav button:disabled{opacity:.3;cursor:default}
+.gal-nav svg{width:18px;height:18px}
+.gal-bars{display:flex;gap:8px;margin-bottom:26px}
+.gal-bars i{flex:1;height:2px;background:var(--line);transition:background .3s;cursor:pointer}
+.gal-bars i.on{background:var(--ink)}
+.gal-view{overflow:hidden;touch-action:pan-y}
+.gal-track{display:flex;transition:transform .55s cubic-bezier(.2,.7,.2,1)}
+.gal-slide{flex:0 0 100%;min-width:0}
+.gal-stage{position:relative;background:var(--ink);aspect-ratio:4/3;cursor:zoom-in;overflow:hidden}
+.gal-stage img{position:absolute;inset:clamp(10px,1.6vw,18px);width:calc(100% - 2*clamp(10px,1.6vw,18px));height:calc(100% - 2*clamp(10px,1.6vw,18px));object-fit:contain}
+.gal-cap{margin-top:16px;font-size:clamp(16px,1.5vw,19px);line-height:1.5;padding-bottom:14px;border-bottom:1.5px solid var(--ink);max-width:min(560px,100%);min-height:3em}
+@media(max-width:640px){.gal-stage{aspect-ratio:4/5}.gal-nav button{width:40px;height:40px}}
 
 .more h2{font-weight:300;font-size:22px;text-align:center;padding:24px 0 30px}
 
@@ -309,8 +321,7 @@ body.ep-view #episode{display:block}
     </div>
     <div class="ep-body"><p data-e="desc"></p></div>
     <div class="gallery">
-      <h2>[galeria]</h2>
-      <div data-e="gallery"></div>
+      <div class="gal" data-e="gallery"></div>
     </div>
   </div>
   <section class="more">
@@ -396,6 +407,28 @@ $$('[data-seek]').forEach(t=>t.addEventListener('click',ev=>{
 }));
 $('[data-m=pp]').innerHTML=ICON_PLAY;
 
+
+/* galeria em carrossel: setas, barras de progresso, arrastar no celular */
+const ARR_L='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>';
+const ARR_R='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>';
+function buildGallery(root,items){
+  const n=items.length; let i=0;
+  root.innerHTML=`<div class="gal-head"><div class="lbl">Galeria<span data-g="n">1 / ${n}</span></div>
+    <div class="gal-nav"><button type="button" data-g="prev" aria-label="Foto anterior">${ARR_L}</button><button type="button" data-g="next" aria-label="Próxima foto">${ARR_R}</button></div></div>
+    <div class="gal-bars">${items.map((_,k)=>`<i data-k="${k}"></i>`).join('')}</div>
+    <div class="gal-view"><div class="gal-track">${items.map(([src,,cap])=>`<figure class="gal-slide"><div class="gal-stage"><img src="${src}" alt="${cap.replace(/"/g,'')}"></div><figcaption class="gal-cap">${cap}</figcaption></figure>`).join('')}</div></div>`;
+  const track=$('.gal-track',root), bars=$$('.gal-bars i',root), prev=$('[data-g=prev]',root), next=$('[data-g=next]',root), num=$('[data-g=n]',root);
+  const go=k=>{i=Math.max(0,Math.min(n-1,k)); track.style.transform=`translateX(${-i*100}%)`;
+    bars.forEach((b,j)=>b.classList.toggle('on',j===i)); num.textContent=`${i+1} / ${n}`; prev.disabled=i===0; next.disabled=i===n-1;};
+  prev.onclick=()=>go(i-1); next.onclick=()=>go(i+1); bars.forEach(b=>b.onclick=()=>go(+b.dataset.k));
+  let x0=null,dx=0; const view=$('.gal-view',root);
+  view.addEventListener('touchstart',e=>{x0=e.touches[0].clientX;dx=0},{passive:true});
+  view.addEventListener('touchmove',e=>{if(x0!==null)dx=e.touches[0].clientX-x0},{passive:true});
+  view.addEventListener('touchend',()=>{if(Math.abs(dx)>40)go(i+(dx<0?1:-1));x0=null});
+  root.tabIndex=0; root.onkeydown=e=>{if(e.key==='ArrowLeft')go(i-1);if(e.key==='ArrowRight')go(i+1)};
+  go(0);
+}
+
 /* routing */
 function route(){
   const h=location.hash.slice(1);
@@ -409,7 +442,7 @@ function route(){
     $('[data-e=meta]').textContent=`novembro 2026 · ${e.dur} min`;
     $('#episode [data-dur]').textContent=e.dur;
     $('[data-e=desc]').innerHTML=e.desc;
-    $('[data-e=gallery]').innerHTML=e.gal.map(([s,o,c])=>`<figure class="g-item"><div class="frame ${o}"><img src="${s}" alt="${c.replace(/"/g,'')}"></div><figcaption>${c}</figcaption></figure>`).join('');
+    buildGallery($('[data-e=gallery]'),e.gal);
     $('[data-more]').innerHTML=EP_KEYS.filter(k=>k!==h).map(cell).join('');
     $('[data-more]').style.gridTemplateColumns=innerWidth>860?'1fr 1fr':'';
     const pb=$('[data-e=play]'); pb.dataset.k=h; pb.onclick=()=>toggle(h);
@@ -440,7 +473,7 @@ addEventListener('resize',()=>{const m=$('[data-more]'); if(m) m.style.gridTempl
 /* scroll reveal: text and blocks fade/slide in as they enter the viewport */
 const RV_SEL=['.hero .sun','.hero .word','.hero .kana','.hero .date','.meaning .tag','.meaning h2','.meaning p','.kanji>div',
  '.stitle','.trailer .cover','.trailer p','.trailer .btn','.about p','.cell','.credits dl>div',
- '.crumb','.ep-hero img','.ep-hero>div>*','.ep-body p','.gallery h2','.g-item .frame','.g-item figcaption','.more h2','footer img','footer p'].join(',');
+ '.crumb','.ep-hero img','.ep-hero>div>*','.ep-body p','.gal','.more h2','footer img','footer p'].join(',');
 const io='IntersectionObserver' in window ? new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -8% 0px',threshold:.12}) : null;
 function reveal(root=document){
   const els=$$(RV_SEL,root).filter(el=>!el.classList.contains('rv'));
@@ -461,7 +494,7 @@ reveal();
 addEventListener('hashchange',()=>{reveal(); if(document.body.classList.contains('ep-view')) rereveal($('#episode'));});
 
 /* lightbox */
-document.addEventListener('click',ev=>{const f=ev.target.closest('.frame'); if(f){$('#lb img').src=$('img',f).src;$('#lb').classList.add('on')}});
+document.addEventListener('click',ev=>{const f=ev.target.closest('.gal-stage'); if(f){$('#lb img').src=$('img',f).src;$('#lb').classList.add('on')}});
 $('#lb').addEventListener('click',()=>$('#lb').classList.remove('on'));
 addEventListener('keydown',ev=>{if(ev.key==='Escape')$('#lb').classList.remove('on')});
 </script>
