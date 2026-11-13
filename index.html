@@ -244,6 +244,17 @@ body.ep-view #episode{display:block}
   .mini .wrap{height:64px}
 }
 
+
+/* share */
+.share{display:flex;align-items:center;gap:8px;margin-top:22px}
+.trailer .share{justify-content:center}
+.share-l{font-size:13px;color:var(--muted);letter-spacing:.04em;margin-right:4px}
+.sh{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--ink);display:grid;place-items:center;transition:background .2s,color .2s,transform .2s}
+.sh svg{width:19px;height:19px}
+.sh:hover{background:var(--ink);color:var(--cream);transform:translateY(-2px)}
+.toast{position:fixed;left:50%;bottom:96px;transform:translate(-50%,20px);background:var(--ink);color:var(--cream);font-size:14px;padding:12px 20px;border-radius:999px;z-index:60;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;box-shadow:0 10px 30px -10px rgba(0,0,0,.5);max-width:calc(100vw - 32px);text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
 /* scroll reveal */
 .js .rv{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
 .js .rv.in{opacity:1;transform:none}
@@ -343,6 +354,10 @@ body.ep-view #episode{display:block}
     <button class="btn sm" data-play="trailer"><span>OUVIR</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
     </button>
+    <div class="share" data-share="home"><span class="share-l">compartilhar</span>
+      <button type="button" class="sh" data-sh="wa" aria-label="Compartilhar no WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5l1.3-4.2A8.5 8.5 0 1 1 8 19.4z"/><path d="M9 8.6c.2-.5.5-.6.8-.6h.5c.2 0 .4.1.5.4l.7 1.6c.1.2 0 .5-.1.6l-.5.6c-.1.1-.1.3 0 .5.6 1 1.4 1.8 2.4 2.4.2.1.4.1.5 0l.6-.6c.2-.2.4-.2.6-.1l1.6.7c.3.1.4.3.4.5v.5c0 .3-.2.7-.6.9-.8.4-2 .5-3.8-.5a10 10 0 0 1-3.4-3.4c-1-1.8-.6-3-.2-3.6z" fill="currentColor" stroke="none"/></svg></button>
+      <button type="button" class="sh" data-sh="ig" aria-label="Compartilhar no Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></button>
+      <button type="button" class="sh" data-sh="link" aria-label="Copiar link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1"/></svg></button></div>
   </section>
 
   <section class="about" id="sobre">
@@ -403,6 +418,10 @@ body.ep-view #episode{display:block}
 <button type="button" class="cb" data-skip="10" aria-label="Avançar 10 segundos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v4h-4"/><text x="12" y="15.6" text-anchor="middle" font-size="7.4" font-weight="700" fill="currentColor" stroke="none" font-family="Poppins,sans-serif">10</text></svg></button>
 <button type="button" class="cb" data-step="1" aria-label="Próximo episódio"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM4 5v14l10.5-7z"/></svg></button></div>
         </div>
+        <div class="share" data-share="ep"><span class="share-l">compartilhar</span>
+      <button type="button" class="sh" data-sh="wa" aria-label="Compartilhar no WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5l1.3-4.2A8.5 8.5 0 1 1 8 19.4z"/><path d="M9 8.6c.2-.5.5-.6.8-.6h.5c.2 0 .4.1.5.4l.7 1.6c.1.2 0 .5-.1.6l-.5.6c-.1.1-.1.3 0 .5.6 1 1.4 1.8 2.4 2.4.2.1.4.1.5 0l.6-.6c.2-.2.4-.2.6-.1l1.6.7c.3.1.4.3.4.5v.5c0 .3-.2.7-.6.9-.8.4-2 .5-3.8-.5a10 10 0 0 1-3.4-3.4c-1-1.8-.6-3-.2-3.6z" fill="currentColor" stroke="none"/></svg></button>
+      <button type="button" class="sh" data-sh="ig" aria-label="Compartilhar no Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></button>
+      <button type="button" class="sh" data-sh="link" aria-label="Copiar link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1"/></svg></button></div>
       </div>
     </div>
     <div class="ep-body"><p data-e="desc"></p></div>
@@ -462,6 +481,7 @@ body.ep-view #episode{display:block}
 </div>
 
 <div class="lb" id="lb"><img alt=""></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 <audio id="au" preload="none"></audio>
 
 <script>
@@ -558,6 +578,27 @@ $('[data-pl]').addEventListener('click',e=>{const b=e.target.closest('[data-pick
 $('[data-m=close]').addEventListener('click',()=>{
   setPl(false); au.pause(); au.removeAttribute('src'); au.load(); cur=null;
   $('#mini').classList.remove('on'); document.body.classList.remove('has-mini'); sync(); tick();
+});
+
+
+/* compartilhar: WhatsApp, Instagram (menu nativo do celular ou link copiado), copiar link */
+const SITE=(/claude|anthropic|localhost|127\.0\.0\.1/.test(location.hostname)?'https://omoide-podcast.vercel.app/':location.origin+location.pathname);
+function shareData(scope){
+  const h=location.hash.slice(1);
+  if(scope==='ep' && EPS[h] && h!=='trailer'){const e=EPS[h]; return {url:SITE+'#'+h, title:`${e.title} — omoide 思い出`, text:`Ouça "${e.title}", episódio ${e.n} do podcast omoide 思い出, com ${e.guest}.`};}
+  return {url:SITE, title:'omoide 思い出 — podcast', text:'Ouça omoide 思い出: memórias de imigrantes japoneses do Alto Tietê (SP), contadas através da terra.'};
+}
+function toast(msg){const t=$('#toast'); t.textContent=msg; t.classList.add('on'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('on'),2800);}
+async function copyLink(url,msg){ try{ await navigator.clipboard.writeText(url); toast(msg||'Link copiado!'); }catch(e){ toast(url); } }
+document.addEventListener('click',async ev=>{
+  const b=ev.target.closest('[data-sh]'); if(!b) return; ev.preventDefault();
+  const d=shareData(b.closest('[data-share]').dataset.share);
+  if(b.dataset.sh==='wa'){ window.open('https://wa.me/?text='+encodeURIComponent(d.text+' '+d.url),'_blank','noopener'); return; }
+  if(b.dataset.sh==='ig'){
+    if(navigator.share && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){ try{ await navigator.share({title:d.title,text:d.text,url:d.url}); return; }catch(e){ if(e&&e.name==='AbortError') return; } }
+    await copyLink(d.url,'Link copiado! Cole no seu story ou direct do Instagram.'); return;
+  }
+  copyLink(d.url);
 });
 
 /* galeria em carrossel: setas, barras de progresso, arrastar no celular */
