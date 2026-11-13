@@ -190,6 +190,44 @@ body.ep-view #episode{display:block}
   .mini .bar{position:absolute;left:0;right:0;top:0;min-width:0}.mini .times{display:none}.mini .track{height:3px;border-radius:0}
 }
 
+
+/* mini: open button + close */
+.m-open{display:flex;align-items:center;gap:12px;min-width:0;flex:0 1 330px;text-align:left;padding:6px 8px 6px 0;border-radius:10px}
+.m-open .chev{width:16px;height:16px;flex:none;opacity:.6;transition:transform .3s}
+.m-open[aria-expanded=true] .chev{transform:rotate(180deg)}
+.m-open:hover .chev{opacity:1}
+.m-x{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;flex:none;opacity:.6;transition:opacity .2s,background .2s}
+.m-x:hover{opacity:1;background:rgba(243,229,211,.12)}
+.m-x svg{width:18px;height:18px}
+/* playlist sheet */
+.pl-back{position:fixed;inset:0;z-index:28;background:rgba(20,10,6,.45);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.pl-back.on{opacity:1;visibility:visible}
+.pl{position:fixed;left:0;right:0;bottom:72px;z-index:29;display:flex;justify-content:center;pointer-events:none}
+.pl-in{width:min(1120px,100%);margin:0 auto;background:var(--ink-2);color:var(--cream);border-radius:18px 18px 0 0;padding:20px 28px 16px;box-shadow:0 -20px 40px -20px rgba(0,0,0,.5);
+  transform:translateY(calc(100% + 80px));transition:transform .45s cubic-bezier(.2,.7,.2,1);pointer-events:auto;max-height:calc(100vh - 160px);overflow:auto}
+.pl.on .pl-in{transform:none}
+.pl h4{font-weight:300;font-size:13px;letter-spacing:.08em;text-transform:lowercase;opacity:.7;margin:4px 0 10px}
+.pl h4+.pl-item{margin-top:0}
+.pl-item{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:10px;border-radius:12px;transition:background .2s}
+.pl-item:hover{background:rgba(243,229,211,.08)}
+.pl-item img{width:52px;height:52px;border-radius:8px;flex:none}
+.pl-item .t{min-width:0;flex:1}
+.pl-item .t small{display:block;font-size:12px;opacity:.6;letter-spacing:.04em}
+.pl-item .t b{display:block;font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pl-item .d{font-size:12px;opacity:.6;font-variant-numeric:tabular-nums;flex:none}
+.pl-item .ic{width:34px;height:34px;border-radius:50%;border:1px solid rgba(243,229,211,.35);display:grid;place-items:center;flex:none}
+.pl-item .ic svg{width:14px;height:14px}
+.pl-item.now{background:rgba(163,64,58,.22)}
+.pl-item.now .ic{background:var(--red);border-color:var(--red)}
+.pl-sep{height:1px;background:rgba(243,229,211,.12);margin:12px 0 14px}
+@media(max-width:700px){
+  .pl{bottom:64px}.pl-in{padding:16px 14px 12px;border-radius:16px 16px 0 0}
+  .pl-item img{width:44px;height:44px}.pl-item .t b{font-size:14px}.pl-item .d{display:none}
+  .m-open{gap:8px;flex:1 1 auto;padding-right:2px}.m-open .chev{width:14px;height:14px}
+  .m-x{width:30px;height:30px}.m-x svg{width:16px;height:16px}
+  .mini .wrap{height:64px}
+}
+
 /* scroll reveal */
 .js .rv{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
 .js .rv.in{opacity:1;transform:none}
@@ -374,16 +412,22 @@ body.ep-view #episode{display:block}
   </div>
 </footer>
 
+<div class="pl-back" id="plBack"></div>
+<div class="pl" id="pl" role="dialog" aria-label="Lista de episódios"><div class="pl-in" data-pl></div></div>
 <div class="mini" id="mini">
   <div class="wrap">
-    <img data-m="cover" alt="">
-    <div class="ti"><b data-m="title"></b><span data-m="sub"></span></div>
+    <button type="button" class="m-open" data-m="open" aria-label="Abrir lista de episódios" aria-expanded="false">
+      <img data-m="cover" alt="">
+      <span class="ti"><b data-m="title"></b><span data-m="sub"></span></span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg>
+    </button>
     <div class="ctrls"><button type="button" class="cb" data-step="-1" aria-label="Episódio anterior"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6zM20 5v14L9.5 12z"/></svg></button>
 <button type="button" class="cb" data-skip="-10" aria-label="Voltar 10 segundos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.6-5.9"/><path d="M4 4v4h4"/><text x="12" y="15.6" text-anchor="middle" font-size="7.4" font-weight="700" fill="currentColor" stroke="none" font-family="Poppins,sans-serif">10</text></svg></button>
 <button type="button" class="cb pp" data-pp data-m="pp" aria-label="Tocar ou pausar"></button>
 <button type="button" class="cb" data-skip="10" aria-label="Avançar 10 segundos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v4h-4"/><text x="12" y="15.6" text-anchor="middle" font-size="7.4" font-weight="700" fill="currentColor" stroke="none" font-family="Poppins,sans-serif">10</text></svg></button>
 <button type="button" class="cb" data-step="1" aria-label="Próximo episódio"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM4 5v14l10.5-7z"/></svg></button></div>
     <div class="bar"><div class="track" data-seek><i></i></div><div class="times"><span data-cur>0:00</span><span data-dur>0:00</span></div></div>
+    <button type="button" class="m-x" data-m="close" aria-label="Fechar player e parar o áudio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   </div>
 </div>
 
@@ -456,6 +500,34 @@ $$('[data-seek]').forEach(t=>t.addEventListener('click',ev=>{
 }));
 $$('[data-pp]').forEach(b=>b.innerHTML=ICON_PLAY);
 
+
+
+/* playlist sheet + close player */
+function plItem(k,now){const e=EPS[k];const tag=e.n?`[episódio ${e.n}]`:'[trailer]';const t=e.n?e.title:'conheça o podcast omoide';
+  const ic=now&&!au.paused?ICON_PAUSE:ICON_PLAY;
+  return `<button type="button" class="pl-item${now?' now':''}" data-pick="${k}"><img src="${e.cover}" alt=""><span class="t"><small>${tag}${e.guest?' · '+e.guest:''}</small><b>${t}</b></span><span class="d">${e.dur}</span><span class="ic">${ic}</span></button>`}
+function renderPl(){
+  if(!cur) return; const idx=ORDER.indexOf(cur);
+  const others=EP_KEYS.filter(k=>k!==cur);
+  const after=others.filter(k=>ORDER.indexOf(k)>idx), before=others.filter(k=>ORDER.indexOf(k)<idx);
+  let h=`<h4>tocando agora</h4>${plItem(cur,true)}<div class="pl-sep"></div>`;
+  if(after.length) h+=`<h4>próximos episódios</h4>${after.map(k=>plItem(k)).join('')}`;
+  if(before.length) h+=`<h4${after.length?' style="margin-top:14px"':''}>${after.length?'episódios anteriores':'outros episódios'}</h4>${before.map(k=>plItem(k)).join('')}`;
+  $('[data-pl]').innerHTML=h;
+}
+function setPl(open){ $('#pl').classList.toggle('on',open); $('#plBack').classList.toggle('on',open); $('[data-m=open]').setAttribute('aria-expanded',open); if(open) renderPl(); }
+$('[data-m=open]').addEventListener('click',()=>setPl(!$('#pl').classList.contains('on')));
+$('#plBack').addEventListener('click',()=>setPl(false));
+addEventListener('keydown',e=>{if(e.key==='Escape')setPl(false)});
+$('[data-pl]').addEventListener('click',e=>{const b=e.target.closest('[data-pick]'); if(!b) return; const k=b.dataset.pick;
+  if(k===cur){toggle(); renderPl(); return;}
+  load(k); au.play().catch(()=>{}); if(document.body.classList.contains('ep-view')&&k!=='trailer') location.hash=k; sync(); renderPl(); setTimeout(()=>setPl(false),350);
+});
+['play','pause'].forEach(ev=>au.addEventListener(ev,()=>{ if($('#pl').classList.contains('on')) renderPl(); }));
+$('[data-m=close]').addEventListener('click',()=>{
+  setPl(false); au.pause(); au.removeAttribute('src'); au.load(); cur=null;
+  $('#mini').classList.remove('on'); document.body.classList.remove('has-mini'); sync(); tick();
+});
 
 /* galeria em carrossel: setas, barras de progresso, arrastar no celular */
 const ARR_L='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>';
