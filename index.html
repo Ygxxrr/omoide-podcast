@@ -61,7 +61,12 @@ nav a:hover{opacity:1}
 /* trailer */
 .trailer{text-align:center;padding-bottom:100px}
 .trailer .cover{width:min(360px,80%);margin:0 auto;border-radius:22px;box-shadow:0 18px 40px -20px rgba(43,24,16,.55)}
-.trailer p{font-size:clamp(17px,1.7vw,21px);max-width:640px;margin:24px auto 22px}
+.t-copy{max-width:620px;margin:30px auto 26px;padding:0 24px}
+.t-copy p{text-wrap:balance}
+.t-lead{font-size:clamp(17px,1.7vw,21px);line-height:1.5}
+.t-sub{font-size:clamp(15px,1.4vw,17px);color:var(--muted);margin-top:14px}
+.t-q{font-size:clamp(24px,2.6vw,32px);font-weight:800;font-style:italic;letter-spacing:-.01em;margin-top:2px}
+@media(max-width:640px){.br-d{display:none}}
 .btn{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:var(--cream);font-weight:700;font-size:19px;padding:10px 18px;letter-spacing:.01em;transition:background .2s}
 .btn:hover{background:var(--red)}
 .btn svg{width:26px;height:26px}
@@ -321,7 +326,11 @@ body.ep-view #episode{display:block}
   <section class="trailer" id="trailer">
     <h2 class="stitle">trailer: conheça o<br>podcast omoide</h2>
     <img class="cover" src="img/capa-podcast.jpg" alt="Capa do podcast omoide">
-    <p>Memórias de imigrantes japoneses do Alto Tietê (SP), contadas através da terra. Três histórias, três gerações, uma pergunta: o que fica?</p>
+    <div class="t-copy">
+      <p class="t-lead">Memórias de imigrantes japoneses do Alto Tietê (SP), <br class="br-d">contadas através da terra.</p>
+      <p class="t-sub">Três histórias, três gerações, uma pergunta:</p>
+      <p class="t-q">o que fica?</p>
+    </div>
     <button class="btn sm" data-play="trailer"><span>OUVIR</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
     </button>
@@ -596,7 +605,7 @@ addEventListener('resize',()=>{const m=$('[data-more]'); if(m) m.style.gridTempl
 
 /* scroll reveal: text and blocks fade/slide in as they enter the viewport */
 const RV_SEL=['.hero .sun','.hero .word','.hero .kana','.hero .date','.meaning .tag','.meaning h2','.meaning p','.kanji>div',
- '.stitle','.trailer .cover','.trailer p','.trailer .btn','.about p','.cell','.credits dl>div',
+ '.stitle','.trailer .cover','.t-lead','.t-sub','.t-q','.trailer .btn','.about p','.cell','.credits dl>div',
  '.crumb','.ep-hero img','.ep-hero>div>*','.ep-body p','.gal','.more h2','footer .f-top img','footer p','footer .f-bot'].join(',');
 const io='IntersectionObserver' in window ? new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -8% 0px',threshold:.12}) : null;
 function reveal(root=document){
