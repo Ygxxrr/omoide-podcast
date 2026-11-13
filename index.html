@@ -14,6 +14,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
+section{scroll-margin-top:64px}
 body{font-family:Poppins,system-ui,sans-serif;background:var(--cream);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;padding-bottom:84px}
 img{display:block;max-width:100%}
 a{color:inherit}
@@ -41,23 +42,23 @@ nav a:hover{opacity:1}
 .hero .scroll{margin-top:18px;font-size:13px;opacity:.6;text-decoration:none}
 
 .meaning .wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center;padding-top:96px;padding-bottom:110px}
-.meaning h2{font-size:clamp(56px,8vw,96px);font-weight:700;line-height:.95;letter-spacing:-.02em}
+.meaning h2{font-size:clamp(44px,5.6vw,70px);font-weight:700;line-height:.95;letter-spacing:-.02em}
 .meaning h2 .jp{font-size:.32em;vertical-align:middle;margin-left:8px;font-weight:600}
 .meaning p{font-size:clamp(17px,1.6vw,21px);font-weight:300;margin-top:16px;max-width:520px}
 .kanji{display:grid;grid-template-columns:1fr 1fr;gap:20px;text-align:center}
-.kanji .k{font-family:"Shippori Mincho",serif;font-weight:800;color:var(--copper);font-size:clamp(96px,13vw,170px);line-height:1}
+.kanji .k{font-family:"Shippori Mincho",serif;font-weight:800;color:var(--copper);font-size:clamp(84px,10vw,140px);line-height:1}
 .kanji b{display:block;font-size:19px;margin-top:10px}
 .kanji small{display:block;font-size:14px;font-weight:300;opacity:.85}
 @media(max-width:820px){.meaning .wrap{grid-template-columns:1fr}}
 
 /* section titles */
-.stitle{font-size:clamp(44px,7vw,84px);font-weight:700;letter-spacing:-.025em;line-height:1;text-align:center;padding:96px 0 56px}
+.stitle{font-size:clamp(32px,4.4vw,54px);font-weight:700;letter-spacing:-.02em;line-height:1.08;text-align:center;padding:84px 0 44px}
 
 /* trailer */
 .trailer{text-align:center;padding-bottom:100px}
 .trailer .cover{width:min(360px,80%);margin:0 auto;border-radius:22px;box-shadow:0 18px 40px -20px rgba(43,24,16,.55)}
 .trailer p{font-size:clamp(17px,1.7vw,21px);max-width:640px;margin:24px auto 22px}
-.btn{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:var(--cream);font-weight:700;font-size:22px;padding:10px 18px;letter-spacing:.01em;transition:background .2s}
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:var(--cream);font-weight:700;font-size:19px;padding:10px 18px;letter-spacing:.01em;transition:background .2s}
 .btn:hover{background:var(--red)}
 .btn svg{width:26px;height:26px}
 .btn.playing{background:var(--red)}
@@ -109,7 +110,7 @@ body.ep-view #episode{display:block}
 .ep-hero{display:grid;grid-template-columns:minmax(260px,420px) 1fr;gap:56px;align-items:center;padding:36px 0 64px}
 .ep-hero img{border-radius:22px;box-shadow:0 18px 40px -20px rgba(43,24,16,.55)}
 .ep-hero .tag{font-size:22px}
-.ep-hero h1{font-size:clamp(36px,5vw,62px);font-weight:800;font-style:italic;line-height:1.02;letter-spacing:-.02em;margin:6px 0 14px}
+.ep-hero h1{font-size:clamp(30px,3.8vw,46px);font-weight:800;font-style:italic;line-height:1.02;letter-spacing:-.02em;margin:6px 0 14px}
 .ep-hero .who{font-size:18px}
 .ep-hero .who b{font-weight:700}
 .ep-hero .meta{font-size:13px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin:6px 0 26px}
@@ -151,6 +152,11 @@ body.ep-view #episode{display:block}
 .mini .times{color:#bfae9f}
 @media(max-width:640px){.mini .skip,.mini .ti span{display:none}.mini .ti{flex-basis:120px}}
 
+/* scroll reveal */
+.js .rv{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
+.js .rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.js .rv{opacity:1;transform:none;transition:none}}
+
 /* lightbox */
 .lb{position:fixed;inset:0;background:rgba(20,10,6,.92);display:none;place-items:center;z-index:50;padding:24px;cursor:zoom-out}
 .lb.on{display:grid}
@@ -158,6 +164,7 @@ body.ep-view #episode{display:block}
 </style>
 </head>
 <body>
+<script>document.documentElement.classList.add('js')</script>
 
 <header>
   <div class="wrap">
@@ -373,6 +380,24 @@ function route(){
 }
 addEventListener('hashchange',route); route();
 addEventListener('resize',()=>{const m=$('[data-more]'); if(m) m.style.gridTemplateColumns=innerWidth>860?'1fr 1fr':''});
+
+/* scroll reveal: text and blocks fade/slide in as they enter the viewport */
+const RV_SEL=['.hero img','.hero .date','.meaning .tag','.meaning h2','.meaning p','.kanji>div',
+ '.stitle','.trailer .cover','.trailer p','.trailer .btn','.about p','.cell','.credits dl>div',
+ '.crumb','.ep-hero img','.ep-hero>div>*','.ep-body p','.gallery h2','.g-item .frame','.g-item figcaption','.more h2','footer img','footer p'].join(',');
+const io='IntersectionObserver' in window ? new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -8% 0px',threshold:.12}) : null;
+function reveal(root=document){
+  const els=$$(RV_SEL,root).filter(el=>!el.classList.contains('rv'));
+  els.forEach(el=>{
+    el.classList.add('rv');
+    const sib=el.parentElement?[...el.parentElement.children].filter(c=>c.matches(RV_SEL)):[];
+    el.style.setProperty('--d',Math.min(sib.indexOf(el),5)*0.09+'s');
+    io?io.observe(el):el.classList.add('in');
+  });
+}
+function rereveal(root){ $$('.rv',root).forEach(el=>{el.classList.remove('in');io&&io.observe(el)}); }
+reveal();
+addEventListener('hashchange',()=>{reveal(); if(document.body.classList.contains('ep-view')) rereveal($('#episode'));});
 
 /* lightbox */
 document.addEventListener('click',ev=>{const f=ev.target.closest('.frame'); if(f){$('#lb img').src=$('img',f).src;$('#lb').classList.add('on')}});
