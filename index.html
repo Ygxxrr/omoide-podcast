@@ -157,6 +157,30 @@ body.ep-view #episode{display:block}
 .js .rv.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.js .rv{opacity:1;transform:none;transition:none}}
 
+
+/* intro vinheta */
+.intro{display:none}
+.js .intro{position:fixed;inset:0;z-index:100;background:var(--ink);color:var(--cream);display:grid;place-items:center;overflow:hidden;
+  animation:introOut .9s cubic-bezier(.7,0,.2,1) 4.1s forwards}
+.intro.skip{animation:introOut .6s cubic-bezier(.7,0,.2,1) 0s forwards}
+.intro .stage{display:flex;flex-direction:column;align-items:center;text-align:center;padding:24px}
+.intro .sun{position:relative;width:min(240px,52vw);aspect-ratio:599/670;opacity:0;transform:translateY(18px) scale(.92);animation:rise 1.1s cubic-bezier(.2,.7,.2,1) .25s forwards}
+.intro .sun img{width:100%;height:auto}
+.intro .word{font-weight:700;font-size:clamp(52px,9vw,96px);line-height:1;letter-spacing:-.02em;margin-top:18px;display:flex}
+.intro .word span{display:inline-block;opacity:0;transform:translateY(.4em);animation:letter .55s cubic-bezier(.2,.7,.2,1) forwards}
+.intro .kana{font-family:"Shippori Mincho",serif;color:var(--copper);font-size:clamp(26px,4.2vw,44px);letter-spacing:.35em;margin:6px 0 0 .35em;opacity:0;animation:fade .9s ease 1.9s forwards}
+.intro .rule{width:0;height:1px;background:var(--copper);margin:22px auto 16px;animation:line .8s cubic-bezier(.2,.7,.2,1) 2.4s forwards}
+.intro .id{font-weight:300;font-size:clamp(13px,1.5vw,16px);letter-spacing:.14em;text-transform:lowercase;opacity:0;animation:fade .8s ease 2.7s forwards}
+.intro .id b{font-weight:600}
+.intro .skipbtn{position:absolute;right:22px;bottom:20px;font-size:12px;letter-spacing:.12em;opacity:.55;color:var(--cream)}
+.intro .skipbtn:hover{opacity:1}
+@keyframes rise{to{opacity:1;transform:none}}
+@keyframes letter{to{opacity:1;transform:none}}
+@keyframes fade{to{opacity:1}}
+@keyframes line{to{width:min(220px,50vw)}}
+@keyframes introOut{0%{transform:none}100%{transform:translateY(-100%);visibility:hidden}}
+@media (prefers-reduced-motion:reduce){.js .intro{animation:introOut .01s linear 1.6s forwards}.intro *{animation-duration:.01s!important;animation-delay:0s!important}}
+
 /* lightbox */
 .lb{position:fixed;inset:0;background:rgba(20,10,6,.92);display:none;place-items:center;z-index:50;padding:24px;cursor:zoom-out}
 .lb.on{display:grid}
@@ -165,6 +189,18 @@ body.ep-view #episode{display:block}
 </head>
 <body>
 <script>document.documentElement.classList.add('js')</script>
+
+
+<div class="intro" id="intro" aria-hidden="true">
+  <div class="stage">
+    <div class="sun"><img src="img/ilustracao.png" alt=""></div>
+    <div class="word"><span style="animation-delay:1.05s">o</span><span style="animation-delay:1.13s">m</span><span style="animation-delay:1.21s">o</span><span style="animation-delay:1.29s">i</span><span style="animation-delay:1.37s">d</span><span style="animation-delay:1.45s">e</span></div>
+    <div class="kana">思い出</div>
+    <div class="rule"></div>
+    <div class="id">um podcast de <b>mariana nacashima</b></div>
+  </div>
+  <button class="skipbtn" type="button">pular ›</button>
+</div>
 
 <header>
   <div class="wrap">
@@ -381,6 +417,19 @@ function route(){
 addEventListener('hashchange',route); route();
 addEventListener('resize',()=>{const m=$('[data-more]'); if(m) m.style.gridTemplateColumns=innerWidth>860?'1fr 1fr':''});
 
+
+/* intro vinheta: plays once on open, skippable; removed after it slides away */
+(function(){
+  const it=$('#intro'); if(!it) return;
+  const done=()=>{ it.remove(); };
+  const skip=()=>{ it.classList.add('skip'); };
+  $('.skipbtn',it).addEventListener('click',skip);
+  it.addEventListener('click',skip);
+  addEventListener('keydown',e=>{if(e.key==='Escape'||e.key===' ') skip()},{once:true});
+  it.addEventListener('animationend',e=>{ if(e.target===it) done(); });
+  setTimeout(()=>{ if(document.body.contains(it)) done(); },6500);
+})();
+
 /* scroll reveal: text and blocks fade/slide in as they enter the viewport */
 const RV_SEL=['.hero img','.hero .date','.meaning .tag','.meaning h2','.meaning p','.kanji>div',
  '.stitle','.trailer .cover','.trailer p','.trailer .btn','.about p','.cell','.credits dl>div',
@@ -397,6 +446,11 @@ function reveal(root=document){
 }
 function rereveal(root){ $$('.rv',root).forEach(el=>{el.classList.remove('in');io&&io.observe(el)}); }
 reveal();
+/* hero waits for the vinheta to lift before appearing */
+(function(){const it=$('#intro'); if(!it) return; const hs=$$('.hero .rv');
+  const set=base=>hs.forEach((el,i)=>el.style.setProperty('--d',(base+i*.15)+'s'));
+  set(4.5); it.addEventListener('click',()=>set(.35));
+})();
 addEventListener('hashchange',()=>{reveal(); if(document.body.classList.contains('ep-view')) rereveal($('#episode'));});
 
 /* lightbox */
