@@ -27,11 +27,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 header{position:sticky;top:0;z-index:20;background:var(--ink);color:var(--cream);border-bottom:1px solid #3d2a20}
 header .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
-.brand img{height:40px;width:auto}
+.brand{font-weight:700;font-size:24px;letter-spacing:-.02em;line-height:1;color:var(--cream)}
 nav{display:flex;gap:26px;font-size:14px}
 nav a{text-decoration:none;opacity:.8;transition:opacity .2s}
 nav a:hover{opacity:1}
-@media(max-width:640px){nav{gap:14px;font-size:12.5px}.brand img{height:32px}}
+@media(max-width:640px){nav{gap:14px;font-size:12.5px}.brand{font-size:20px}}
 
 /* dark sections */
 .dark{background:var(--ink);color:var(--cream)}
@@ -207,7 +207,7 @@ body.ep-view #episode{display:block}
 
 <header>
   <div class="wrap">
-    <a class="brand" href="#inicio" aria-label="omoide — início"><img src="img/logo.png" alt="omoide 思い出"></a>
+    <a class="brand" href="#inicio" aria-label="omoide — início">omoide</a>
     <nav>
       <a href="#sobre">sobre</a>
       <a href="#episodios">episódios</a>
