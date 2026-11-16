@@ -89,6 +89,7 @@ nav a:hover{opacity:1}
 @media(max-width:640px){.br-d{display:none}}
 .btn{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:var(--cream);font-weight:700;font-size:19px;padding:10px 18px;letter-spacing:.01em;transition:background .2s}
 .btn:hover{background:var(--red)}
+a.btn{text-decoration:none}
 .btn svg{width:26px;height:26px}
 .btn.playing{background:var(--red)}
 
@@ -241,6 +242,8 @@ body.ep-view #episode{display:block}
 .pl{position:fixed;left:0;right:0;bottom:72px;z-index:29;display:flex;justify-content:center;pointer-events:none}
 .pl-in{width:min(1120px,100%);margin:0 auto;background:var(--ink-2);color:var(--cream);border-radius:18px 18px 0 0;padding:20px 28px 16px;box-shadow:0 -20px 40px -20px rgba(0,0,0,.5);
   transform:translateY(calc(100% + 80px));transition:transform .45s cubic-bezier(.2,.7,.2,1);pointer-events:auto;max-height:calc(100vh - 160px);overflow:auto}
+.pl{visibility:hidden;transition:visibility 0s linear .45s}
+.pl.on{visibility:visible;transition:none}
 .pl.on .pl-in{transform:none}
 .pl h4{font-weight:300;font-size:13px;letter-spacing:.08em;text-transform:lowercase;opacity:.7;margin:4px 0 10px}
 .pl h4+.pl-item{margin-top:0}
@@ -288,6 +291,47 @@ body.ep-view #episode{display:block}
 .epi-title{top:calc(50% + min(28vh,39vw) + 18px);font-weight:800;font-style:italic;font-size:clamp(22px,2.6vw,32px);letter-spacing:-.01em;padding:0 20px;animation:fade .7s ease .75s forwards}
 .epi.fly .epi-tag,.epi.fly .epi-title{animation:none;opacity:0}
 @keyframes epiIn{to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+
+
+/* memorial */
+#memorial-page{display:none}
+body.mem-view #home,body.mem-view #episode{display:none}
+body.mem-view #memorial-page{display:block}
+.mem-card{display:flex;align-items:center;gap:28px;max-width:720px;margin-top:44px;padding:26px 30px;border:1px solid var(--line);border-radius:20px;background:var(--cream-2);text-decoration:none;transition:transform .3s,box-shadow .3s}
+.mem-card:hover{transform:translateY(-3px);box-shadow:0 18px 40px -24px rgba(43,24,16,.5)}
+.mem-card>img{width:120px;height:auto;flex:none}
+.mc-t{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.mc-tag{font-size:14px;font-weight:300;letter-spacing:.06em;color:var(--muted)}
+.mc-txt{font-size:clamp(16px,1.5vw,19px);line-height:1.5}
+.mc-btn{margin-top:6px}
+@media(max-width:600px){.mem-card{flex-direction:column;align-items:flex-start;padding:22px}.mem-card>img{width:96px}}
+.mem-hero .wrap{display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:40px;padding-bottom:90px;position:relative}
+.mem-back{align-self:flex-start;font-size:14px;opacity:.7;text-decoration:none;margin-bottom:36px}
+.mem-back:hover{opacity:1}
+.mem-tag{font-weight:300;font-size:16px;letter-spacing:.08em;opacity:.8;margin-bottom:22px}
+.mem-ill{width:min(280px,58vw);height:auto}
+.mem-name{font-weight:700;font-size:clamp(38px,5.4vw,64px);letter-spacing:-.02em;line-height:1.05;margin-top:22px}
+.mem-dates{font-family:"Shippori Mincho",serif;color:var(--copper);font-size:clamp(18px,2vw,24px);letter-spacing:.06em;margin-top:10px}
+.mem-body{position:relative;overflow:hidden}
+.mem-text{max-width:760px;position:relative;z-index:1}
+.mem-text p{font-size:clamp(17px,1.7vw,21px);line-height:1.65;margin-bottom:1.1em}
+.mem-lead{font-weight:700;font-style:italic;font-size:clamp(20px,2.2vw,26px)!important;line-height:1.35!important}
+.mem-pair{display:flex;align-items:center;justify-content:center;gap:clamp(16px,4vw,48px);padding-top:40px;padding-bottom:100px;position:relative;z-index:1}
+.mem-pair figure{text-align:center}
+.mem-pair figcaption{font-size:14px;font-weight:300;letter-spacing:.06em;color:var(--muted);margin-top:12px}
+.mp-photo{background:var(--ink);padding:clamp(10px,1.4vw,16px)}
+.mp-photo img{width:clamp(130px,22vw,240px);height:auto}
+.mp-ill{background:var(--ink);padding:clamp(10px,1.4vw,16px);display:grid;place-items:center}
+.mp-ill img{width:clamp(130px,22vw,240px);height:auto}
+.mp-arrow svg{width:28px;height:28px;color:var(--copper)}
+@media(max-width:600px){.mp-arrow{transform:rotate(90deg)}.mem-pair{flex-direction:column}}
+.mem-gal{border-top:1px solid var(--line);padding:70px 0 100px}
+.mem-gal .gal{margin:0 auto}
+.mem-end .wrap{display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;padding-top:90px;padding-bottom:100px}
+.mem-kana{font-family:"Shippori Mincho",serif;color:var(--copper);font-size:clamp(34px,4vw,48px);letter-spacing:.35em;margin-left:.35em}
+.mem-end p{font-size:clamp(17px,1.7vw,21px);font-weight:300}
+.mem-end .btn{background:var(--cream);color:var(--ink);margin-top:10px}
+.mem-end .btn:hover{background:var(--red);color:var(--cream)}
 
 /* scroll reveal */
 .js .rv{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
@@ -401,6 +445,14 @@ body.ep-view #episode{display:block}
       <p><b>Omoide</b> é um podcast narrativo documental em três episódios que registra as memórias afetivas de imigrantes japoneses e seus descendentes na região do Alto Tietê, em São Paulo, contadas através da agricultura. Histórias que a terra guarda.</p>
       <p>Ao acompanhar as trajetórias de Sakae Urakawa, Sakae Muramatsu e Ercílio Hoçoya, o projeto reflete sobre trabalho, pertencimento e sucessão entre gerações, preservando histórias que correm o risco de se perder.</p>
       <p>O projeto é autoral de conclusão de curso em Jornalismo assinado por Mariana Nacashima.</p>
+      <a class="mem-card" href="#memorial">
+        <img src="img/ilustracao.png" alt="Ilustração de Paulo Nacashima, a identidade visual do omoide">
+        <span class="mc-t">
+          <span class="mc-tag">[a primeira memória]</span>
+          <span class="mc-txt">O rosto do omoide é Paulo Nacashima, avô da Mariana. Em memória dele, que inspirou este projeto.</span>
+          <span class="btn sm mc-btn"><span>conheça a história</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+      </a>
     </div>
   </section>
 
@@ -427,6 +479,42 @@ body.ep-view #episode{display:block}
         <div><dt>[Diagramação do site]</dt><dd>Ygor Silva Matos</dd></div>
         <div><dt>[Realização]</dt><dd>Universidade São Judas Tadeu</dd></div>
       </dl>
+    </div>
+  </section>
+</main>
+
+
+<main id="memorial-page" class="memorial">
+  <section class="dark mem-hero">
+    <div class="wrap">
+      <a class="mem-back" href="#sobre">← voltar ao podcast</a>
+      <span class="mem-tag">[in memoriam]</span>
+      <img class="mem-ill" src="img/ilustracao.png" alt="Ilustração de Paulo Nacashima">
+      <h1 class="mem-name">Paulo Nacashima</h1>
+      <span class="mem-dates">1930 – 2014 · in memoriam</span>
+    </div>
+  </section>
+  <section class="mem-body">
+    <div class="ghost" aria-hidden="true">思い出</div>
+    <h2 class="stitle">a primeira memória.</h2>
+    <div class="wrap mem-text">
+      <p class="mem-lead">Em memória do avô Paulo Nacashima, que inspirou este projeto.</p>
+      <p>O desenho que acompanha a identidade visual do <b>Omoide</b> é uma homenagem ao avô paterno de Mariana, Paulo Nacashima, <i>in memoriam</i>. Foi a lembrança dele, japonês, que despertou em mim o interesse pelas histórias dos imigrantes e pelo modo como elas ficam guardadas na memória das famílias. Ao colocá-lo na marca, ele passa a fazer parte do podcast, como a lembrança que deu origem a este projeto.</p>
+    </div>
+    <div class="wrap mem-pair">
+      <figure><div class="mp-photo"><img src="img/paulo-1.jpg" alt="Fotografia de Paulo Nacashima"></div><figcaption>a fotografia</figcaption></figure>
+      <span class="mp-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      <figure><div class="mp-ill"><img src="img/ilustracao.png" alt="Ilustração de Paulo Nacashima"></div><figcaption>o desenho do omoide</figcaption></figure>
+    </div>
+  </section>
+  <section class="mem-gal">
+    <div class="wrap"><div class="gal" data-mem-gal></div></div>
+  </section>
+  <section class="dark mem-end">
+    <div class="wrap">
+      <span class="mem-kana">思い出</span>
+      <p>Paulo Nacashima, 1930–2014, <i>in memoriam</i></p>
+      <a class="btn sm" href="#episodios"><span>ouvir os episódios</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></a>
     </div>
   </section>
 </main>
@@ -683,8 +771,17 @@ function epIntro(e){
 }
 
 /* routing */
+const MEM_GAL=[['img/paulo-1.jpg','p','Paulo Nacashima | Imagem: Acervo pessoal©'],['img/paulo-2.jpg','l','Paulo Nacashima e Mariana bebê | Imagem: Acervo pessoal©'],['img/paulo-3.jpg','p','Paulo Nacashima e Mariana já criança | Imagem: Acervo pessoal©']];
+let memBuilt=false;
 function route(){
   const h=location.hash.slice(1);
+  document.body.classList.toggle('mem-view',h==='memorial');
+  if(h==='memorial'){
+    document.body.classList.remove('ep-view');
+    if(!memBuilt){ buildGallery($('[data-mem-gal]'),MEM_GAL); memBuilt=true; }
+    window.scrollTo({top:0,behavior:'instant'}); document.title='Paulo Nacashima, in memoriam — omoide 思い出';
+    return;
+  }
   if(EPS[h] && h!=='trailer'){
     const e=EPS[h]; document.body.classList.add('ep-view');
     $('[data-e=crumb]').textContent=`[episódio ${e.n}] omoide`;
@@ -703,12 +800,12 @@ function route(){
     if(window.__epIntro){ window.__epIntro=false; epIntro(e); }
     document.title=`${e.title} — omoide 思い出`;
   } else {
-    const was=document.body.classList.contains('ep-view');
+    const was=document.body.classList.contains('ep-view')||route._mem;
     document.body.classList.remove('ep-view'); document.title='omoide 思い出 — podcast';
     if(was||h){const t=h&&document.getElementById(h); requestAnimationFrame(()=>t?t.scrollIntoView():window.scrollTo(0,0));}
   }
 }
-addEventListener('hashchange',route); route();
+addEventListener('hashchange',()=>{route(); route._mem=location.hash==='#memorial';}); route(); route._mem=location.hash==='#memorial';
 addEventListener('resize',()=>{const m=$('[data-more]'); if(m) m.style.gridTemplateColumns=innerWidth>860?'1fr 1fr':''});
 
 
@@ -727,7 +824,7 @@ addEventListener('resize',()=>{const m=$('[data-more]'); if(m) m.style.gridTempl
 /* scroll reveal: text and blocks fade/slide in as they enter the viewport */
 const RV_SEL=['.hero .sun','.hero .word','.hero .kana','.hero .date','.meaning .tag','.meaning h2','.meaning p','.kanji>div',
  '.stitle','.trailer .cover','.t-lead','.t-sub','.t-q','.trailer .btn','.about p','.cell','.credits dl>div',
- '.crumb','.ep-hero img','.ep-hero>div>*','.ep-body p','.gal','.more h2','.f-brand','.f-author','footer .f-bot'].join(',');
+ '.mem-card','.mem-tag','.mem-ill','.mem-name','.mem-dates','.mem-text p','.mem-pair figure','.mem-pair .mp-arrow','.mem-kana','.mem-end p','.mem-end .btn','.crumb','.ep-hero img','.ep-hero>div>*','.ep-body p','.gal','.more h2','.f-brand','.f-author','footer .f-bot'].join(',');
 const io='IntersectionObserver' in window ? new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -8% 0px',threshold:.12}) : null;
 function reveal(root=document){
   const els=$$(RV_SEL,root).filter(el=>!el.classList.contains('rv'));
@@ -745,7 +842,7 @@ reveal();
   const set=base=>hs.forEach((el,i)=>el.style.setProperty('--d',(base+i*.15)+'s'));
   set(4.5); it.addEventListener('click',()=>set(.35));
 })();
-addEventListener('hashchange',()=>{reveal(); if(document.body.classList.contains('ep-view')) rereveal($('#episode'));});
+addEventListener('hashchange',()=>{reveal(); if(document.body.classList.contains('ep-view')) rereveal($('#episode')); if(document.body.classList.contains('mem-view')) rereveal($('#memorial-page'));});
 
 /* lightbox */
 document.addEventListener('click',ev=>{const f=ev.target.closest('.gal-stage'); if(f){$('#lb img').src=$('img',f).src;$('#lb').classList.add('on')}});
