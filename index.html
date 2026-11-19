@@ -315,7 +315,9 @@ body.mem-view #memorial-page{display:block}
 .mem-body{position:relative;overflow:hidden}
 .mem-text{max-width:760px;position:relative;z-index:1}
 .mem-text p{font-size:clamp(17px,1.7vw,21px);line-height:1.65;margin-bottom:1.1em}
-.mem-lead{font-weight:700;font-style:italic;font-size:clamp(20px,2.2vw,26px)!important;line-height:1.35!important}
+.mem-ded{border-top:1px solid var(--line)}
+.mem-ded .wrap{padding-top:90px;padding-bottom:100px;text-align:center}
+.mem-ded p{font-weight:700;font-style:italic;font-size:clamp(22px,2.6vw,32px);line-height:1.35;max-width:760px;margin:0 auto;text-wrap:balance}
 .mem-pair{display:flex;align-items:center;justify-content:center;gap:clamp(16px,4vw,48px);padding-top:40px;padding-bottom:100px;position:relative;z-index:1}
 .mem-pair figure{text-align:center}
 .mem-pair figcaption{font-size:14px;font-weight:300;letter-spacing:.06em;color:var(--muted);margin-top:12px}
@@ -325,7 +327,7 @@ body.mem-view #memorial-page{display:block}
 .mp-ill img{width:clamp(130px,22vw,240px);height:auto}
 .mp-arrow svg{width:28px;height:28px;color:var(--copper)}
 @media(max-width:600px){.mp-arrow{transform:rotate(90deg)}.mem-pair{flex-direction:column}}
-.mem-gal{border-top:1px solid var(--line);padding:70px 0 100px}
+.mem-gal{border-top:1px solid var(--line);padding:70px 0 90px}
 .mem-gal .gal{margin:0 auto}
 .mem-end .wrap{display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;padding-top:90px;padding-bottom:100px}
 .mem-kana{font-family:"Shippori Mincho",serif;color:var(--copper);font-size:clamp(34px,4vw,48px);letter-spacing:.35em;margin-left:.35em}
@@ -448,8 +450,8 @@ body.mem-view #memorial-page{display:block}
       <a class="mem-card" href="#memorial">
         <img src="img/ilustracao.png" alt="Ilustração de Paulo Nacashima, a identidade visual do omoide">
         <span class="mc-t">
-          <span class="mc-tag">[a primeira memória]</span>
-          <span class="mc-txt">O rosto do omoide é Paulo Nacashima, avô da Mariana. Em memória dele, que inspirou este projeto.</span>
+          <span class="mc-tag">[a identidade visual]</span>
+          <span class="mc-txt">O rosto do omoide tem nome: Paulo Nacashima, avô paterno da Mariana.</span>
           <span class="btn sm mc-btn"><span>conheça a história</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </span>
       </a>
@@ -488,18 +490,20 @@ body.mem-view #memorial-page{display:block}
   <section class="dark mem-hero">
     <div class="wrap">
       <a class="mem-back" href="#sobre">← voltar ao podcast</a>
-      <span class="mem-tag">[in memoriam]</span>
+      <span class="mem-tag">[o rosto do omoide]</span>
       <img class="mem-ill" src="img/ilustracao.png" alt="Ilustração de Paulo Nacashima">
       <h1 class="mem-name">Paulo Nacashima</h1>
-      <span class="mem-dates">1930 – 2014 · in memoriam</span>
+      <span class="mem-dates">1930 – 2014</span>
     </div>
   </section>
   <section class="mem-body">
     <div class="ghost" aria-hidden="true">思い出</div>
     <h2 class="stitle">a primeira memória.</h2>
     <div class="wrap mem-text">
-      <p class="mem-lead">Em memória do avô Paulo Nacashima, que inspirou este projeto.</p>
-      <p>O desenho que acompanha a identidade visual do <b>Omoide</b> é uma homenagem ao avô paterno de Mariana, Paulo Nacashima, <i>in memoriam</i>. Foi a lembrança dele, japonês, que despertou em mim o interesse pelas histórias dos imigrantes e pelo modo como elas ficam guardadas na memória das famílias. Ao colocá-lo na marca, ele passa a fazer parte do podcast, como a lembrança que deu origem a este projeto.</p>
+      <p>O desenho que dá rosto à identidade visual do <b>Omoide</b> é uma homenagem ao avô paterno de Mariana, Paulo Nacashima.</p>
+      <p>Japonês, Paulo foi para a neta a primeira ponte entre a família e um país do outro lado do mundo. Foi a lembrança dele que despertou em Mariana o interesse pelas histórias dos imigrantes e pelo modo como elas ficam guardadas na memória das famílias: nos gestos, nos costumes, nas palavras que atravessam gerações.</p>
+      <p>O nome dele está registrado no museu da imigração japonesa, no bairro da Liberdade, em São Paulo. Mas é nas fotografias da família, no colo que segurou Mariana ainda bebê e no abraço da neta já crescida, que essa história continua viva.</p>
+      <p>Ao se tornar o rosto da marca, Paulo passa a acompanhar cada episódio. Ele é a lembrança de onde tudo começou e um lembrete de que toda família guarda uma história que merece ser ouvida.</p>
     </div>
     <div class="wrap mem-pair">
       <figure><div class="mp-photo"><img src="img/paulo-1.jpg" alt="Fotografia de Paulo Nacashima"></div><figcaption>a fotografia</figcaption></figure>
@@ -509,6 +513,9 @@ body.mem-view #memorial-page{display:block}
   </section>
   <section class="mem-gal">
     <div class="wrap"><div class="gal" data-mem-gal></div></div>
+  </section>
+  <section class="mem-ded">
+    <div class="wrap"><p>Em memória do avô Paulo Nacashima,<br class="br-d"> que inspirou este projeto.</p></div>
   </section>
   <section class="dark mem-end">
     <div class="wrap">
@@ -824,7 +831,7 @@ addEventListener('resize',()=>{const m=$('[data-more]'); if(m) m.style.gridTempl
 /* scroll reveal: text and blocks fade/slide in as they enter the viewport */
 const RV_SEL=['.hero .sun','.hero .word','.hero .kana','.hero .date','.meaning .tag','.meaning h2','.meaning p','.kanji>div',
  '.stitle','.trailer .cover','.t-lead','.t-sub','.t-q','.trailer .btn','.about p','.cell','.credits dl>div',
- '.mem-card','.mem-tag','.mem-ill','.mem-name','.mem-dates','.mem-text p','.mem-pair figure','.mem-pair .mp-arrow','.mem-kana','.mem-end p','.mem-end .btn','.crumb','.ep-hero img','.ep-hero>div>*','.ep-body p','.gal','.more h2','.f-brand','.f-author','footer .f-bot'].join(',');
+ '.mem-card','.mem-tag','.mem-ill','.mem-name','.mem-dates','.mem-text p','.mem-ded p','.mem-pair figure','.mem-pair .mp-arrow','.mem-kana','.mem-end p','.mem-end .btn','.crumb','.ep-hero img','.ep-hero>div>*','.ep-body p','.gal','.more h2','.f-brand','.f-author','footer .f-bot'].join(',');
 const io='IntersectionObserver' in window ? new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -8% 0px',threshold:.12}) : null;
 function reveal(root=document){
   const els=$$(RV_SEL,root).filter(el=>!el.classList.contains('rv'));
