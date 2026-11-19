@@ -335,6 +335,36 @@ body.mem-view #memorial-page{display:block}
 .mem-end .btn{background:var(--cream);color:var(--ink);margin-top:10px}
 .mem-end .btn:hover{background:var(--red);color:var(--cream)}
 
+
+/* transcrição */
+.tx-wrap{border-top:1px solid var(--line);padding:34px 0 10px}
+.tx-toggle,.tx-link{display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:16px;padding:10px 18px;border:1.5px solid var(--ink);border-radius:999px;transition:background .2s,color .2s}
+.tx-toggle:hover,.tx-link:hover{background:var(--ink);color:var(--cream)}
+.tx-toggle svg,.tx-link svg{width:19px;height:19px}
+.tx-toggle svg:last-child{transition:transform .3s}
+.tx-toggle[aria-expanded=true] svg:last-child{transform:rotate(180deg)}
+.tx-link{font-size:14px;padding:8px 15px;margin:16px 0 0 6px;vertical-align:middle;border-color:rgba(43,24,16,.35)}
+.tx{max-width:780px;margin-top:28px}
+.tx-note{font-size:13px;color:var(--muted);margin-bottom:26px;line-height:1.5}
+.tx-row{display:grid;grid-template-columns:62px 1fr;gap:14px;padding:14px 12px;margin:0 -12px;border-radius:12px;transition:background .3s}
+.tx-row.on{background:var(--cream-2)}
+.tx-t{font-size:13px;font-variant-numeric:tabular-nums;color:var(--muted);text-align:left;align-self:start;padding-top:3px;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+.tx-t:hover{color:var(--red)}
+.tx-w{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin-bottom:4px}
+.tx-w.n{color:var(--copper)}
+.tx-row p{font-size:clamp(16px,1.5vw,18px);line-height:1.6}
+.tx-row.s p{font-style:italic}
+.tx-cut{color:var(--muted);font-style:normal}
+.txm{position:fixed;inset:0;z-index:70;background:rgba(20,10,6,.55);display:none;align-items:flex-end;justify-content:center}
+.txm.on{display:flex}
+.txm-in{background:var(--cream);width:min(820px,100%);max-height:86vh;overflow:auto;border-radius:20px 20px 0 0;padding:22px 28px 30px}
+.txm-h{display:flex;justify-content:space-between;align-items:center;position:sticky;top:-22px;background:var(--cream);padding:8px 0 10px;font-weight:300;letter-spacing:.06em;z-index:1}
+.txm-x{width:38px;height:38px;border-radius:50%;display:grid;place-items:center}
+.txm-x svg{width:20px;height:20px}
+.txm-x:hover{background:var(--cream-2)}
+.txm .tx{margin-top:10px}
+@media(max-width:600px){.tx-row{grid-template-columns:50px 1fr;gap:10px}.txm-in{padding:18px 18px 26px}}
+
 /* scroll reveal */
 .js .rv{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
 .js .rv.in{opacity:1;transform:none}
@@ -434,6 +464,7 @@ body.mem-view #memorial-page{display:block}
     <button class="btn sm" data-play="trailer"><span>OUVIR</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
     </button>
+    <button type="button" class="tx-link" data-tx-open="trailer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg><span>ler a transcrição do trailer</span></button>
     <div class="share" data-share="home"><span class="share-l">Compartilhe</span>
       <button type="button" class="sh" data-sh="wa" aria-label="Compartilhar no WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5l1.3-4.2A8.5 8.5 0 1 1 8 19.4z"/><path d="M9 8.6c.2-.5.5-.6.8-.6h.5c.2 0 .4.1.5.4l.7 1.6c.1.2 0 .5-.1.6l-.5.6c-.1.1-.1.3 0 .5.6 1 1.4 1.8 2.4 2.4.2.1.4.1.5 0l.6-.6c.2-.2.4-.2.6-.1l1.6.7c.3.1.4.3.4.5v.5c0 .3-.2.7-.6.9-.8.4-2 .5-3.8-.5a10 10 0 0 1-3.4-3.4c-1-1.8-.6-3-.2-3.6z" fill="currentColor" stroke="none"/></svg></button>
       <button type="button" class="sh" data-sh="ig" aria-label="Compartilhar no Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></button>
@@ -556,6 +587,10 @@ body.mem-view #memorial-page{display:block}
       </div>
     </div>
     <div class="ep-body"><p data-e="desc"></p></div>
+    <div class="tx-wrap">
+      <button type="button" class="tx-toggle" data-tx-toggle aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg><span>ler a transcrição</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="tx" data-tx hidden></div>
+    </div>
     <div class="gallery">
       <div class="gal" data-e="gallery"></div>
     </div>
@@ -611,10 +646,17 @@ body.mem-view #memorial-page{display:block}
   </div>
 </div>
 
+<div class="txm" id="txm" role="dialog" aria-modal="true" aria-label="Transcrição do trailer">
+  <div class="txm-in">
+    <div class="txm-h"><span>[transcrição] trailer</span><button type="button" class="txm-x" aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="tx" data-txm></div>
+  </div>
+</div>
 <div class="lb" id="lb"><img alt=""></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <audio id="au" preload="none"></audio>
 
+<script src="transcricoes.js"></script>
 <script>
 const EPS = {
   trailer:{n:0,src:'audio/trailer.mp3',cover:'img/capa-podcast.jpg',title:'trailer: conheça o podcast omoide',sub:'omoide 思い出',dur:'1:40'},
@@ -732,6 +774,40 @@ document.addEventListener('click',async ev=>{
   copyLink(d.url);
 });
 
+
+/* transcrições: blocos com minutagem clicável, destaque do trecho tocando */
+const fmtT=s=>Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0');
+function renderTx(key,el){
+  const T=(window.TX||{})[key]; if(!T){el.innerHTML='';return;}
+  el.dataset.key=key;
+  el.innerHTML='<p class="tx-note">Transcrição editada para leitura: as falas dos entrevistados foram levemente ajustadas da oralidade, sem alterar o sentido. Clique ou toque na minutagem para ouvir aquele trecho.</p>'+
+    T.map((r,i)=>`<div class="tx-row ${r.w==='n'?'n':'s'}" data-i="${i}"><button type="button" class="tx-t" data-at="${r.t}">${fmtT(r.t)}</button><div><span class="tx-w ${r.w==='n'?'n':''}">${r.w==='n'?'Narração · Mariana Nacashima':r.w}</span><p>${r.x}</p></div></div>`).join('');
+}
+document.addEventListener('click',ev=>{
+  const b=ev.target.closest('.tx-t'); if(!b) return;
+  const key=b.closest('.tx').dataset.key, at=+b.dataset.at;
+  if(cur!==key) load(key);
+  const go=()=>{au.currentTime=at; au.play().catch(()=>{}); sync();};
+  au.readyState>=1?go():au.addEventListener('loadedmetadata',go,{once:true});
+});
+au.addEventListener('timeupdate',()=>{
+  $$('.tx[data-key]').forEach(el=>{
+    const rows=$$('.tx-row',el); if(!rows.length) return;
+    let on=-1; if(el.dataset.key===cur){ const T=window.TX[cur]; for(let i=0;i<T.length;i++){ if(T[i].t<=au.currentTime+0.3) on=i; else break; } }
+    rows.forEach((r,i)=>r.classList.toggle('on',i===on));
+  });
+});
+document.addEventListener('click',ev=>{
+  const t=ev.target.closest('[data-tx-toggle]'); if(!t) return;
+  const box=t.parentElement.querySelector('[data-tx]'); const open=t.getAttribute('aria-expanded')!=='true';
+  t.setAttribute('aria-expanded',open); box.hidden=!open; $('span',t).textContent=open?'fechar a transcrição':'ler a transcrição';
+});
+document.addEventListener('click',ev=>{
+  const o=ev.target.closest('[data-tx-open]'); if(o){ renderTx(o.dataset.txOpen,$('[data-txm]')); $('#txm').classList.add('on'); return; }
+  if(ev.target.closest('.txm-x')||ev.target.id==='txm') $('#txm').classList.remove('on');
+});
+addEventListener('keydown',e=>{if(e.key==='Escape')$('#txm').classList.remove('on')});
+
 /* galeria em carrossel: setas, barras de progresso, arrastar no celular */
 const ARR_L='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>';
 const ARR_R='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>';
@@ -802,6 +878,7 @@ function route(){
     $('#episode [data-dur]').textContent=e.dur;
     $('[data-e=desc]').innerHTML=e.desc;
     buildGallery($('[data-e=gallery]'),e.gal);
+    renderTx(h,$('[data-tx]')); const tt=$('[data-tx-toggle]'); tt.setAttribute('aria-expanded','false'); $('[data-tx]').hidden=true; $('span',tt).textContent='ler a transcrição';
     $('[data-more]').innerHTML=EP_KEYS.filter(k=>k!==h).map(cell).join('');
     $('[data-more]').style.gridTemplateColumns=innerWidth>860?'1fr 1fr':'';
     const pb=$('[data-e=play]'); pb.dataset.k=h; pb.onclick=()=>toggle(h);
